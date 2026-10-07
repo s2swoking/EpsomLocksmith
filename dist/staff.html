@@ -9,7 +9,7 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./workflow.css">
-  <link rel="stylesheet" href="./workflow-overrides.css">
+  <link rel="stylesheet" href="./workflow-admin.css">
   <script src="./workflow-config.js"></script>
   <script type="module" src="./workflow/staff.js"></script>
 </head>
@@ -28,6 +28,19 @@
     <section id="staff-dashboard" hidden>
       <div class="portal-title-row"><div><p class="eyebrow">YOUR WORK LIST</p><h1>Today's jobs</h1></div><div class="portal-actions"><button id="refresh-jobs" class="button button-light" type="button">Refresh</button><button id="sign-out" class="button button-light" type="button">Sign out</button></div></div>
       <p class="portal-help">Requests stay pending until you accept them. Accepting a scheduled job checks for a time conflict.</p>
+      <section class="portal-panel job-create-panel" aria-labelledby="job-create-title">
+        <p class="eyebrow">AFTER A CUSTOMER CALLS</p><h2 id="job-create-title">Add a confirmed job</h2>
+        <form id="job-create-form" class="workflow-form">
+          <label>Service<select name="service" required><option value="emergency_opening">Emergency door opening</option><option value="lock_repair">Lock replacement &amp; repair</option></select></label>
+          <div class="form-row"><label>Customer name<input name="customer_name" autocomplete="name" required maxlength="100"></label><label>Mobile number<input name="customer_phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="30"></label></div>
+          <label>Address<input name="address" autocomplete="street-address" required maxlength="240"></label>
+          <div class="form-row"><label>Postcode<input name="postcode" autocomplete="postal-code" required maxlength="12"></label><label>Visit time<select name="timing" id="job-timing"><option value="asap">Emergency / as soon as possible</option><option value="scheduled">Schedule a visit</option></select></label></div>
+          <div id="job-scheduled-fields" class="form-row" hidden><label>Date<input name="appointment_date" type="date"></label><label>Preferred time<input name="appointment_time" type="time"></label></div>
+          <label>Job notes<textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+          <button class="button button-dark" type="submit">Save confirmed job</button>
+          <p id="job-create-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
       <p id="staff-message" class="form-message" role="status" aria-live="polite"></p>
       <div id="job-list" class="job-list" aria-live="polite"></div>
       <p id="empty-jobs" class="empty-state" hidden>No open requests or active jobs.</p>

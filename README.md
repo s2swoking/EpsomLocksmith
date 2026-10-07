@@ -14,9 +14,9 @@ Connect this GitHub repository to Vercel. Select the **Other** framework, keep t
 
 ## Appointment Screens
 
-The customer request form is on the home page at `/#booking`. The private locksmith screen is `/staff.html`, and customer tracking is `/track.html`. Backend schema and Edge Functions are in `supabase/`; setup steps are in `BACKEND-SETUP.md`.
+The public home page is call-first. The private appointment manager is `/staff.html`: after a call, sign in and add the confirmed job there. The customer tracking page is `/track.html`. Backend schema and Edge Functions are in `supabase/`; setup steps are in `BACKEND-SETUP.md`.
 
-Set the Supabase project URL and public anon key in `dist/workflow-config.js` before enabling live booking requests. Keep service-role and messaging credentials in Supabase secrets, never in `dist/`.
+Set the Supabase project URL and public anon key in `dist/workflow-config.js` to enable staff sign-in and appointment management. Keep service-role and messaging credentials in Supabase secrets, never in `dist/`.
 
 ## Business Details
 

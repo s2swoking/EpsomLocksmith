@@ -6,7 +6,29 @@ const loginMessage = document.getElementById('login-message');
 const staffMessage = document.getElementById('staff-message');
 const jobList = document.getElementById('job-list');
 const emptyJobs = document.getElementById('empty-jobs');
+const createForm = document.getElementById('job-create-form');
+const createMessage = document.getElementById('job-create-message');
+const timingSelect = document.getElementById('job-timing');
+const scheduledFields = document.getElementById('job-scheduled-fields');
+const appointmentDate = createForm.elements.appointment_date;
+const appointmentTime = createForm.elements.appointment_time;
 const locationWatches = new Map();
+
+function localDateValue(date) {
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function updateScheduledFields() {
+  const scheduled = timingSelect.value === 'scheduled';
+  scheduledFields.hidden = !scheduled;
+  appointmentDate.required = scheduled;
+  appointmentTime.required = scheduled;
+}
+
+appointmentDate.min = localDateValue(new Date());
+timingSelect.addEventListener('change', updateScheduledFields);
+updateScheduledFields();
 
 function tokenFromRedirect() {
   const params = new URLSearchParams(location.hash.slice(1));
@@ -102,6 +124,46 @@ document.getElementById('login-form').addEventListener('submit', async event => 
 
 document.getElementById('refresh-jobs').addEventListener('click', loadJobs);
 document.getElementById('sign-out').addEventListener('click', () => { for (const { watchId } of locationWatches.values()) navigator.geolocation?.clearWatch(watchId); locationWatches.clear(); clearStaffToken(); setSignedIn(false); });
+
+createForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const button = createForm.querySelector('[type="submit"]');
+  const fields = new FormData(createForm);
+  const scheduled = fields.get('timing') === 'scheduled';
+  let appointmentStart = new Date();
+
+  if (scheduled) {
+    appointmentStart = new Date(`${fields.get('appointment_date')}T${fields.get('appointment_time')}`);
+    if (!Number.isFinite(appointmentStart.getTime()) || appointmentStart <= new Date()) {
+      showMessage(createMessage, 'Choose a future date and time for this visit.', 'error');
+      return;
+    }
+  }
+
+  button.disabled = true;
+  showMessage(createMessage, 'Saving confirmed job…');
+  try {
+    await rpc('create_staff_job', {
+      p_service: fields.get('service'),
+      p_customer_name: fields.get('customer_name').trim(),
+      p_customer_phone: fields.get('customer_phone').trim(),
+      p_address: fields.get('address').trim(),
+      p_postcode: fields.get('postcode').trim(),
+      p_notes: fields.get('notes').trim(),
+      p_appointment_start: appointmentStart.toISOString(),
+      p_appointment_duration_minutes: fields.get('service') === 'emergency_opening' ? 90 : 60
+    }, staffToken());
+    createForm.reset();
+    appointmentDate.min = localDateValue(new Date());
+    updateScheduledFields();
+    showMessage(createMessage, 'Confirmed job saved. It now appears in your work list.', 'success');
+    await loadJobs();
+  } catch (error) {
+    showMessage(createMessage, error.message || 'Could not save this job.', 'error');
+  } finally {
+    button.disabled = false;
+  }
+});
 
 jobList.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');

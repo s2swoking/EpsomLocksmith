@@ -43,6 +43,7 @@ The existing site remains a static site. Supabase provides the database, staff s
 ## Workflow behavior
 
 - An emergency request is recorded for now; other requests can ask for a future local date and time. Both remain pending until accepted.
+- For phone-confirmed jobs, staff sign in at `/staff.html`, enter the agreed details and save. Apply [`supabase/migrations/20261007_create_staff_job.sql`](supabase/migrations/20261007_create_staff_job.sql) to an existing database to enable this action.
 - Accepting a job assigns the single configured locksmith. A database exclusion constraint prevents confirmed jobs from overlapping; pending requests may overlap until one is accepted.
 - **On my way** starts a four-hour tracking session and sends the customer a Twilio SMS with a random, private link. Location updates are requested from the locksmith's phone while the page is open.
 - The public tracking page shows only visit status and approximate location. It does not expose customer details. Arrival or completion immediately disables location sharing and clears stored coordinates; the link expires after four hours. The scheduled cleanup removes expired token records.

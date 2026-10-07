@@ -30,6 +30,7 @@ if (business.phone) {
   phoneLink.href = 'tel:' + dialNumber;
   phoneLink.removeAttribute('aria-disabled');
   phoneLink.querySelector('span').textContent = business.phone;
+  document.querySelectorAll('[data-call-link]').forEach(link => { link.href = 'tel:' + dialNumber; });
   document.querySelector('.contact-status').textContent = 'Call for a quote and current arrival estimate.';
 } else {
   phoneLink.addEventListener('click', event => event.preventDefault());

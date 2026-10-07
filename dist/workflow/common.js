@@ -6,7 +6,7 @@ export function backendReady() {
 }
 
 export function backendMessage() {
-  return 'Online booking is not configured yet. Please use the contact details on the site to arrange this visit.';
+  return 'The appointment system is not connected yet. Please check the Supabase URL and public anon key in workflow-config.js.';
 }
 
 function headers(token) {

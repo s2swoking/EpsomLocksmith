@@ -11,11 +11,9 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./light.css">
   <link rel="stylesheet" href="./workflow.css">
-  <link rel="stylesheet" href="./workflow-overrides.css">
   <script src="./assets/lucide.min.js" defer></script>
   <script src="./workflow-config.js"></script>
   <script src="./app.js" defer></script>
-  <script type="module" src="./workflow/booking.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,10 +22,10 @@
     <div class="container header-inner">
       <a href="#" class="brand" aria-label="Epsom Local Locksmith home"><span class="brand-mark"><i data-lucide="key-round" aria-hidden="true"></i></span><span><strong data-brand>Epsom Local Locksmith</strong><small>LOCAL HELP. CLEAR PRICES.</small></span></a>
       <nav class="desktop-nav" aria-label="Main navigation"><a href="#services">Our services</a><a href="#local">Why local?</a><a href="#areas">Areas covered</a><a href="#questions">FAQs</a></nav>
-      <a class="button button-dark header-contact" href="#booking"><i data-lucide="calendar-check" aria-hidden="true"></i>Request a visit</a>
+      <a class="button button-dark header-contact" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call now</a>
       <button class="icon-button menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav" title="Open navigation"><i data-lucide="menu" aria-hidden="true"></i></button>
     </div>
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#services">Our services</a><a href="#local">Why local?</a><a href="#areas">Areas covered</a><a href="#questions">FAQs</a><a href="#booking">Request a visit</a></nav>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#services">Our services</a><a href="#local">Why local?</a><a href="#areas">Areas covered</a><a href="#questions">FAQs</a><a href="#contact" data-call-link>Call now</a></nav>
   </header>
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
@@ -35,7 +33,7 @@
         <div class="hero-topline"><div class="eyebrow"><span class="small-line"></span>YOUR NEIGHBOURHOOD LOCKSMITH</div><p class="hero-location">Epsom / Ewell West / Worcester Park</p></div>
         <h1 id="hero-title">LOCAL<br><span>LOCKSMITH.</span></h1>
         <img class="hero-image brass-object" src="./assets/brass-lock.webp" alt="A detailed brass door lock cylinder with its key inserted" width="1024" height="1024" fetchpriority="high">
-        <div class="hero-bottom"><div class="hero-copy"><p class="hero-description">For the place you call home.<br><span>A local person. A faster response. Clear prices.</span></p><div class="hero-actions"><a class="button button-lime" href="#emergency"><i data-lucide="door-open" aria-hidden="true"></i>I'm locked out</a><a class="button button-outline-light" href="#lock-repair"><i data-lucide="wrench" aria-hidden="true"></i>Fix or replace a lock</a></div></div><div class="hero-guide-prices" aria-label="Service guide prices"><a href="#emergency"><span>Emergency door opening</span><strong>£89</strong><small>Callout + labour included</small></a><a href="#lock-repair"><span>Lock replacement</span><strong><small>from</small> £65</strong><small>New lock + fitting included</small></a></div></div>
+        <div class="hero-bottom"><div class="hero-copy"><p class="hero-description">For the place you call home.<br><span>A local person. A faster response. Clear prices.</span></p><div class="hero-actions"><a class="button button-lime" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help</a><a class="button button-outline-light" href="#contact" data-call-link><i data-lucide="wrench" aria-hidden="true"></i>Call about a lock</a></div></div><div class="hero-guide-prices" aria-label="Service guide prices"><a href="#emergency"><span>Emergency door opening</span><strong>£89</strong><small>Callout + labour included</small></a><a href="#lock-repair"><span>Lock replacement</span><strong><small>from</small> £65</strong><small>New lock + fitting included</small></a></div></div>
       </div>
     </section>
     <div class="promise-strip"><div class="container"><span><i data-lucide="user-round" aria-hidden="true"></i>A local person</span><span><i data-lucide="receipt-text" aria-hidden="true"></i>Transparent guide prices</span><span><i data-lucide="timer" aria-hidden="true"></i>A faster local response</span></div></div>
@@ -49,7 +47,7 @@
             <div class="price"><span class="price-prefix">Guide price</span><strong>£89</strong><span class="price-includes">Callout + labour included</span></div>
             <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>24/7 help when you're locked out</li><li><i data-lucide="check" aria-hidden="true"></i>Wooden, UPVC, composite &amp; aluminium doors</li><li><i data-lucide="check" aria-hidden="true"></i>Broken-key extraction</li><li><i data-lucide="check" aria-hidden="true"></i>Discreet entry, with care for your door</li></ul>
             <p class="price-note">A guide price, not a fixed quote. The price may change if more extensive work is needed on site.</p>
-            <a class="button button-lime service-action" href="#booking" data-booking-service="emergency_opening"><i data-lucide="calendar-check" aria-hidden="true"></i>Request emergency help</a>
+            <a class="button button-lime service-action" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help</a>
           </article>
           <article id="lock-repair" class="service-card repair-card">
             <div class="service-top"><span class="service-icon"><i data-lucide="key-round" aria-hidden="true"></i></span><span class="service-tag">REPAIR · REPLACE · SECURE</span></div>
@@ -57,7 +55,7 @@
             <div class="price"><span class="price-prefix">Guide price from</span><strong>£65</strong><span class="price-includes">New lock + fitting included</span></div>
             <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>British Standard BS3621 mortice deadlocks</li><li><i data-lucide="check" aria-hidden="true"></i>High-security anti-snap &amp; anti-bump cylinders</li><li><i data-lucide="check" aria-hidden="true"></i>UPVC door &amp; window gearbox mechanisms</li><li><i data-lucide="check" aria-hidden="true"></i>Rim cylinders &amp; sealed factory keys with new locks</li></ul>
             <p class="price-note">A guide price, not a fixed quote. The price may change if more extensive work is needed on site.</p>
-            <a class="button button-dark service-action" href="#booking" data-booking-service="lock_repair"><i data-lucide="wrench" aria-hidden="true"></i>Request lock repair</a>
+            <a class="button button-dark service-action" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call about lock repair</a>
           </article>
         </div>
         <p class="pricing-footer"><i data-lucide="info" aria-hidden="true"></i>The right solution depends on your door, lock and the work required. Ask for a quote for your specific job.</p>
@@ -75,23 +73,7 @@
       <details><summary>Will my door need to be damaged to open it?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Discreet entry is the aim, with the approach chosen for your door and lock. Non-destructive entry can't be guaranteed for every situation; a damaged or failed lock may need to be replaced.</p></details>
       <details><summary>How quickly can you get here?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Coverage is local to Epsom, Ewell West and Worcester Park, helping keep travel distances short. Arrival times depend on your location, current jobs and availability. Ask for an up-to-date estimate when you call.</p></details>
     </div></div></section>
-    <section id="booking" class="section booking-section" aria-labelledby="booking-title">
-      <div class="container booking-layout">
-        <div class="booking-intro"><p class="eyebrow">REQUEST A VISIT</p><h2 id="booking-title">Tell us what you need.</h2><p>Send an appointment request. The locksmith will check availability and confirm the time with you.</p><p class="booking-emergency"><i data-lucide="clock-3" aria-hidden="true"></i>Locked out now? Choose emergency help and we'll treat it as urgent.</p></div>
-        <form id="booking-form" class="workflow-form">
-          <label>Service<select name="service" required><option value="emergency_opening">Emergency door opening</option><option value="lock_repair">Lock replacement &amp; repair</option></select></label>
-          <div class="form-row"><label>Your name<input name="customer_name" autocomplete="name" required maxlength="100"></label><label>Mobile number<input name="customer_phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="30" placeholder="07… or +44…"></label></div>
-          <label>Address<input name="address" autocomplete="street-address" required maxlength="240"></label>
-          <div class="form-row"><label>Postcode<input name="postcode" autocomplete="postal-code" required maxlength="12" placeholder="For example, KT17 1AB"></label><label>When do you need us?<select name="timing" id="booking-timing"><option value="asap">As soon as possible</option><option value="scheduled">Request a date and time</option></select></label></div>
-          <div id="scheduled-fields" class="form-row" hidden><label>Date<input name="appointment_date" type="date"></label><label>Preferred time<input name="appointment_time" type="time"></label></div>
-          <label>Anything else we should know?<textarea name="notes" rows="3" maxlength="1000" placeholder="Door type, lock problem, or a suitable time to call"></textarea></label>
-          <button class="button button-dark" type="submit"><i data-lucide="calendar-check" aria-hidden="true"></i>Send appointment request</button>
-          <p class="form-message" id="booking-message" role="status" aria-live="polite"></p>
-          <p class="form-privacy">Your details are used to respond to this request and arrange the locksmith visit.</p>
-        </form>
-      </div>
-    </section>
-    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="container contact-inner"><div><p class="eyebrow">LOCAL HELP STARTS HERE</p><h2 id="contact-title">Let's get your door sorted.</h2><p>24/7 emergency opening. Straightforward lock repairs.</p></div><div class="contact-action"><a class="button button-dark contact-phone" href="#contact" aria-disabled="true"><i data-lucide="phone" aria-hidden="true"></i><span>Phone number coming soon</span></a><a class="button button-light contact-booking" href="#booking"><i data-lucide="calendar-check" aria-hidden="true"></i>Request an appointment</a><p class="contact-status">Contact details are being confirmed.</p><p class="contact-area">Epsom · Ewell West · Worcester Park</p></div></div></section>
+    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="container contact-inner"><div><p class="eyebrow">LOCAL HELP STARTS HERE</p><h2 id="contact-title">Call and speak to the locksmith.</h2><p>24/7 emergency opening. Straightforward lock repairs across Epsom, Ewell West and Worcester Park.</p></div><div class="contact-action"><a class="button button-dark contact-phone" href="#contact" aria-disabled="true"><i data-lucide="phone" aria-hidden="true"></i><span>Phone number coming soon</span></a><p class="contact-status">Contact details are being confirmed.</p><p class="contact-area">Epsom · Ewell West · Worcester Park</p></div></div></section>
   </main>
   <footer><div class="container footer-inner"><a href="#" class="brand footer-brand"><span class="brand-mark"><i data-lucide="key-round" aria-hidden="true"></i></span><span><strong data-brand>Epsom Local Locksmith</strong><small>YOUR LOCAL LOCKSMITH</small></span></a><span>© <span id="year">2026</span> <span data-brand>Epsom Local Locksmith</span></span><a href="#services">View service guide prices</a></div></footer>
 </body>
