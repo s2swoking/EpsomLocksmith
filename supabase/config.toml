@@ -1,0 +1,5 @@
+[functions.request-booking]
+verify_jwt = false
+
+[functions.send-tracking-sms]
+verify_jwt = true

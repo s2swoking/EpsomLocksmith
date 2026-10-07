@@ -12,6 +12,12 @@ The hero uses a softly blurred door photograph, a brass lock with gentle continu
 
 Connect this GitHub repository to Vercel. Select the **Other** framework, keep the repository root as the root directory, and set the output directory to `dist`. Build and install commands are empty; `vercel.json` contains these settings.
 
+## Appointment Screens
+
+The customer request form is on the home page at `/#booking`. The private locksmith screen is `/staff.html`, and customer tracking is `/track.html`. Backend schema and Edge Functions are in `supabase/`; setup steps are in `BACKEND-SETUP.md`.
+
+Set the Supabase project URL and public anon key in `dist/workflow-config.js` before enabling live booking requests. Keep service-role and messaging credentials in Supabase secrets, never in `dist/`.
+
 ## Business Details
 
 The name Epsom Local Locksmith is provisional. Confirm the name and phone number in `dist/app.js` before using the site for customer calls. A blank phone number intentionally leaves calling unavailable. Update the HTML title and metadata if the business name changes.

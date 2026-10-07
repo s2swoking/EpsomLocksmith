@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143e34">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Locksmith jobs | Epsom Local Locksmith</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./workflow.css">
+  <link rel="stylesheet" href="./workflow-overrides.css">
+  <script src="./workflow-config.js"></script>
+  <script type="module" src="./workflow/staff.js"></script>
+</head>
+<body class="portal-page">
+  <header class="portal-header"><div class="container portal-header-inner"><a class="brand" href="./"><span class="brand-mark">E</span><span><strong>Epsom Local Locksmith</strong><small>LOCKSMITH JOBS</small></span></a><a href="./" class="portal-back">View public site</a></div></header>
+  <main class="container portal-main">
+    <section id="staff-login" class="portal-panel portal-login">
+      <p class="eyebrow">PRIVATE STAFF PAGE</p><h1>Sign in to your jobs.</h1>
+      <p>Enter your pre-approved staff email. We'll send a secure sign-in link.</p>
+      <form id="login-form" class="workflow-form">
+        <label>Email address<input name="email" type="email" autocomplete="email" required></label>
+        <button class="button button-dark" type="submit">Email me a sign-in link</button>
+      </form>
+      <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+    </section>
+    <section id="staff-dashboard" hidden>
+      <div class="portal-title-row"><div><p class="eyebrow">YOUR WORK LIST</p><h1>Today's jobs</h1></div><div class="portal-actions"><button id="refresh-jobs" class="button button-light" type="button">Refresh</button><button id="sign-out" class="button button-light" type="button">Sign out</button></div></div>
+      <p class="portal-help">Requests stay pending until you accept them. Accepting a scheduled job checks for a time conflict.</p>
+      <p id="staff-message" class="form-message" role="status" aria-live="polite"></p>
+      <div id="job-list" class="job-list" aria-live="polite"></div>
+      <p id="empty-jobs" class="empty-state" hidden>No open requests or active jobs.</p>
+    </section>
+  </main>
+</body>
+</html>

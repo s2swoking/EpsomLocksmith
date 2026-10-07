@@ -31,7 +31,6 @@ if (business.phone) {
   phoneLink.removeAttribute('aria-disabled');
   phoneLink.querySelector('span').textContent = business.phone;
   document.querySelector('.contact-status').textContent = 'Call for a quote and current arrival estimate.';
-  document.querySelectorAll('.header-contact, .service-action').forEach(link => { link.href = phoneLink.href; });
 } else {
   phoneLink.addEventListener('click', event => event.preventDefault());
 }
