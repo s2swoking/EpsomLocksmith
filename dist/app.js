@@ -4,7 +4,8 @@
 const business = { name: 'Epsom Local Locksmith', phone: '' };
 
 document.querySelectorAll('[data-brand]').forEach(element => { element.textContent = business.name; });
-document.getElementById('year').textContent = String(new Date().getFullYear());
+const year = document.getElementById('year');
+if (year) year.textContent = String(new Date().getFullYear());
 if (window.lucide) window.lucide.createIcons();
 
 const menuButton = document.querySelector('.menu-toggle');
@@ -29,7 +30,8 @@ if (business.phone) {
   const dialNumber = business.phone.replace(/[^+\d]/g, '');
   phoneLink.href = 'tel:' + dialNumber;
   phoneLink.removeAttribute('aria-disabled');
-  phoneLink.querySelector('span').textContent = business.phone;
+  phoneLink.querySelector('span').textContent = 'Call now';
+  phoneLink.setAttribute('aria-label', `Call ${business.name} on ${business.phone}`);
   document.querySelectorAll('[data-call-link]').forEach(link => { link.href = 'tel:' + dialNumber; });
   document.querySelector('.contact-status').textContent = 'Call for a quote and current arrival estimate.';
 } else {

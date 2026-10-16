@@ -1,0 +1,39 @@
+/* Figma reference: outlined E mark, centred coverage, final call section and footer. */
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.home-page .services-section{padding-top:48px}
+.home-page .header{background:#f8f5ed}
+.home-page .brand{gap:13px;font-size:16px;font-weight:400;line-height:1.15;letter-spacing:-.35px;color:#183229}
+.home-page .brand .brand-mark{display:grid;place-items:center;flex-shrink:0;width:46px;height:46px;border:1px solid #c59b4b;border-radius:50% 50% 6px;background:transparent;color:#c59b4b;font-family:Georgia,'Times New Roman',serif;font-size:27px;font-weight:400;line-height:1;letter-spacing:-.3px;transform:none}
+.home-page .brand .brand-name{display:block;color:inherit}
+.home-page .brand .brand-name strong{display:inline;color:inherit;font-size:inherit;font-weight:700;line-height:inherit;letter-spacing:inherit}
+.home-page .header-contact{background:#183229;border-color:#183229;color:#fffdf8;border-radius:7px}
+.home-page .header-contact:hover{background:#2a4a3d}
+.home-page .areas-section.local-coverage{padding:72px 0;background:#183229;border:0;margin:0;color:#fffdf8}
+.home-page .coverage-inner{text-align:center}
+.home-page .coverage-inner .eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;line-height:1.5;color:#b7c5b7;margin-bottom:18px}
+.home-page .coverage-inner h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,4.6vw,64px);font-weight:400;line-height:1.03;letter-spacing:-1.8px;color:#fffdf8;margin:0}
+.home-page .place-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 22px;margin:34px 0 18px;padding:0;color:#e8c77e;font-size:30px;line-height:1.5;font-weight:400}
+.home-page .place-list li{display:flex;align-items:center;gap:22px}
+.home-page .place-list li+li::before{content:'·';color:#70877c}
+.home-page .coverage-note{color:#b7c5be;font-size:13px;line-height:1.7;margin:0}
+.home-page .contact-section{padding:94px 0;background:#263f35;color:#fffdf8;text-align:center}
+.home-page .contact-inner{display:block;max-width:760px;text-align:center}
+.home-page .contact-inner .eyebrow{color:#b7c5b7;font-weight:800;font-size:11px;line-height:1.5;letter-spacing:1.8px;margin:0 0 18px}
+.home-page .contact-inner h2{font-family:Georgia,'Times New Roman',serif;color:#fffdf8;font-size:clamp(40px,4.6vw,64px);font-weight:400;line-height:1.03;letter-spacing:-1.8px;margin:0}
+.home-page .contact-description{max-width:580px;margin:22px auto 28px;color:#c6d0c9;font-size:14px;line-height:1.7}
+.home-page .contact-phone{display:inline-flex;width:auto;min-height:52px;min-width:150px;padding:14px 22px;gap:9px;background:#fffdf8;color:#183229;border:1px solid #fffdf8;border-radius:7px;font-size:14px;font-weight:700}
+.home-page .contact-phone[aria-disabled=true]{opacity:1}
+.home-page .contact-phone:hover{background:#f5e7c8}
+.home-page .contact-inner .contact-status{color:#aab9b0;font-size:11px!important;line-height:1.6;margin:13px 0 0}
+.home-page footer{padding:34px 0;background:#142a22;border-top:1px solid #496054;color:#c7d2cb}
+.home-page .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:30px}
+.home-page .footer-brand{color:#fffdf8}
+.home-page .footer-inner>p{font-size:12px;line-height:1.6;color:#c7d2cb;margin:0;text-align:center}
+.home-page .footer-nav{display:flex;align-items:center;gap:24px;font-size:13px;font-weight:600;flex-shrink:0}
+.home-page .footer-nav a{padding-block:8px;color:#c7d2cb}
+.home-page .footer-nav a:hover{color:#fffdf8;text-decoration:underline;text-underline-offset:4px}
+.home-page footer a:focus-visible{outline-color:#e8c77e}
+@media(max-width:1000px){.home-page .brand{font-size:15px}.home-page .brand .brand-mark{width:42px;height:42px;font-size:25px}.home-page .footer-inner{gap:22px}.home-page .footer-inner>p{max-width:270px}.home-page .footer-nav{gap:18px}}
+@media(max-width:800px){.home-page .areas-section.local-coverage{padding:56px 0}.home-page .coverage-inner h2{font-size:45px;letter-spacing:-1.3px}.home-page .place-list{font-size:24px;gap:10px 17px;margin-top:28px}.home-page .place-list li{gap:17px}.home-page .contact-section{padding:70px 0}.home-page .contact-inner{max-width:650px}.home-page .contact-inner h2{font-size:48px;letter-spacing:-1.4px}.home-page .footer-inner{flex-wrap:wrap;justify-content:center}.home-page .footer-inner .footer-brand{margin-right:auto}.home-page .footer-inner>p{max-width:none;order:3;flex-basis:100%}.home-page .footer-nav{margin-left:auto}}
+@media(max-width:560px){.home-page .services-section{padding-top:30px}.home-page .header-inner{min-height:78px}.home-page .brand{font-size:15px;gap:11px}.home-page .brand .brand-mark{width:43px;height:43px;font-size:25px}.home-page .coverage-inner h2{font-size:38px;line-height:1.08;letter-spacing:-1px}.home-page .place-list{flex-direction:column;gap:8px;font-size:24px;line-height:1.5;margin:26px 0 20px}.home-page .place-list li+li::before{content:none}.home-page .areas-section.local-coverage{padding:45px 0}.home-page .coverage-note{font-size:13px;max-width:280px;margin-inline:auto}.home-page .contact-section{padding:58px 0}.home-page .contact-inner h2{font-size:40px;line-height:1.08;letter-spacing:-1.2px}.home-page .contact-description{margin:22px auto 26px;font-size:14px;max-width:340px}.home-page .footer-inner{gap:22px}.home-page .footer-inner .footer-brand{margin-right:0}.home-page .footer-nav{justify-content:center;margin:0;width:100%;gap:28px}.home-page .footer-inner>p{font-size:12px;max-width:300px}.home-page footer{padding:30px 0}}
+@media(max-width:360px){.home-page .brand{font-size:14px}.home-page .brand .brand-mark{width:39px;height:39px;font-size:23px}.home-page .contact-inner h2{font-size:35px}.home-page .coverage-inner h2{font-size:34px}}
