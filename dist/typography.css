@@ -1,40 +1,42 @@
-/* Homepage typography: Manrope with a single Georgia italic hero accent. */
-.home-page{font-synthesis:none}
-.home-page h2{font-weight:400;font-size:clamp(32px,3.4vw,46px);line-height:1.12;letter-spacing:-1.4px}
-.home-page h3{font-weight:600;letter-spacing:-.55px;line-height:1.3}
-.home-page .brand strong{font-weight:700;letter-spacing:-.35px}
-.home-page .eyebrow{font-weight:600;letter-spacing:1.5px;font-size:11px}
-.home-page .hero h1{font-family:var(--font-body);font-weight:700;font-size:clamp(72px,7.2vw,104px);line-height:1.01;letter-spacing:-5px;max-width:54%;margin:54px 0 0;z-index:3}
-.home-page .hero h1 em{display:inline-block;font-family:var(--font-accent);font-size:1.12em;font-weight:400;font-style:italic;letter-spacing:-5px;color:#957638;padding:0 .09em .08em 0}
-.home-page .hero-description{font-weight:600;font-size:22px;letter-spacing:-.55px}
-.home-page .hero-description span{font-size:15px;font-weight:400;letter-spacing:0}
-.home-page .hero-guide-prices strong{font-weight:600;letter-spacing:-1.4px}
+/* Homepage layout refinements; text styles live in font-system.css. */
+.home-page .hero h1{max-width:54%;margin:54px 0 0;z-index:3}
+.home-page .hero h1 em{display:inline-block;color:#957638;padding:0 .09em .08em 0}
 .home-page .section-heading{margin-bottom:32px;gap:48px}
-.home-page .section-heading>p{font-size:15px;line-height:1.85;max-width:325px}
+.home-page .section-heading>p{max-width:325px}
 .home-page .section-heading .eyebrow{margin-bottom:15px}
-.home-page .service-card h3{font-size:26px;font-weight:600;line-height:1.25}
-.home-page .service-intro{font-size:15px;line-height:1.8;margin-top:12px}
-.home-page .service-list{font-size:14px;line-height:1.8;gap:13px;margin-block:24px}
-.home-page .price strong{font-weight:600;letter-spacing:-2px}
-.home-page .price-includes{font-weight:400}
-.home-page .price-note{font-size:12px;line-height:1.85}
+.home-page .service-intro{margin-top:12px}
+.home-page .service-list{gap:13px;margin-block:24px}
 .home-page .additional-services-heading{margin-top:48px;margin-bottom:26px}
-.home-page .additional-services-heading h3{font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-.9px}
-.home-page .additional-services-heading>p{line-height:1.85}
-.home-page .additional-service h4{font-size:20px;font-weight:600;line-height:1.35;letter-spacing:-.5px;margin-bottom:12px}
-.home-page .additional-service p{font-size:14px;line-height:1.85;margin-bottom:25px}
-.home-page .additional-service>a{font-weight:600;font-size:13px}
-.home-page .local-coverage .coverage-intro h2{font-size:clamp(30px,3vw,40px);font-weight:400;line-height:1.15;letter-spacing:-1.1px}
-.home-page .coverage-places li{font-weight:600}
-.home-page .faq-layout h2{font-size:40px;font-weight:400;letter-spacing:-1.2px}
-.home-page .faq-layout>div>p:not(.eyebrow){font-size:15px;line-height:1.8}
-.home-page summary{font-size:15px;font-weight:600;line-height:1.65;padding-block:23px;letter-spacing:-.2px}
-.home-page details p{font-size:14px;line-height:1.85}
-.home-page .contact-inner h2{font-size:36px;font-weight:400;line-height:1.2;letter-spacing:-1px}
-.home-page .contact-inner p{line-height:1.8}
-@media(min-width:1500px){.home-page .hero h1{font-size:110px}}
-@media(max-width:1100px){.home-page .hero h1{font-size:80px;letter-spacing:-4px;max-width:54%;margin-top:62px}.home-page .hero h1 em{letter-spacing:-4px}.home-page .hero-description{font-size:21px}.home-page .hero-guide-prices{gap:20px}.home-page .hero-guide-prices>a{min-width:140px}}
-@media(max-width:900px) and (min-width:801px){.home-page .hero h1{font-size:68px}.home-page .brass-object{left:50%;width:390px;height:305px;top:104px}.home-page .hero-bottom{gap:16px}.home-page .hero-actions .button{font-size:12px;padding-inline:12px}.home-page .hero-guide-prices>a{min-width:120px}.home-page .hero-guide-prices{gap:16px}.home-page .hero-guide-prices>a+a{padding-left:18px}}
-@media(max-width:800px){.home-page .hero h1{font-size:66px;max-width:58%;margin-top:32px;letter-spacing:-3px}.home-page .hero h1 em{letter-spacing:-3px}.home-page .brass-object{left:53%;top:130px;width:315px;height:240px}.home-page .hero-bottom{gap:22px}.home-page .section-heading{gap:20px}.home-page .additional-services-heading{margin-top:36px}.home-page .faq-layout h2{font-size:36px}}
-@media(max-width:560px){.home-page h2{font-size:33px;letter-spacing:-.9px}.home-page .hero,.home-page .hero-content{min-height:750px}.home-page .hero h1{font-size:62px;max-width:100%;margin-top:25px;letter-spacing:-3px;line-height:1.01}.home-page .hero h1 em{letter-spacing:-3px}.home-page .brass-object{top:238px;left:16%;width:255px;height:185px}.home-page .hero-description{font-size:21px}.home-page .hero-description span{font-size:14px}.home-page .hero-bottom{bottom:25px;gap:22px}.home-page .section-heading{margin-bottom:26px}.home-page .section-heading>p{font-size:15px;margin-top:0}.home-page .service-card h3{font-size:25px}.home-page .service-list{font-size:14px}.home-page .additional-services-heading h3{font-size:28px}.home-page .additional-service h4{font-size:22px}.home-page .additional-service p{font-size:15px}.home-page .additional-service>a{font-size:13px}.home-page .faq-layout h2{font-size:33px}.home-page summary{font-size:14px;padding-block:21px}.home-page .contact-inner h2{font-size:31px}.home-page .local-coverage .coverage-intro h2{font-size:31px}}
-@media(max-width:360px){.home-page .hero h1{font-size:54px}.home-page .brass-object{left:12%;width:235px;top:230px}.home-page .hero-description{font-size:19px}}
+.home-page .additional-service h4{margin-bottom:12px}
+.home-page .additional-service p{margin-bottom:25px}
+.home-page summary{padding-block:23px}
+@media(max-width:1100px){
+  .home-page .hero h1{max-width:54%;margin-top:62px}
+  .home-page .hero-guide-prices{gap:20px}
+  .home-page .hero-guide-prices>a{min-width:140px}
+}
+@media(max-width:900px) and (min-width:801px){
+  .home-page .brass-object{left:50%;width:390px;height:305px;top:104px}
+  .home-page .hero-bottom{gap:16px}
+  .home-page .hero-actions .button{padding-inline:12px}
+  .home-page .hero-guide-prices>a{min-width:120px}
+  .home-page .hero-guide-prices{gap:16px}
+  .home-page .hero-guide-prices>a+a{padding-left:18px}
+}
+@media(max-width:800px){
+  .home-page .hero h1{max-width:58%;margin-top:32px}
+  .home-page .brass-object{left:53%;top:130px;width:315px;height:240px}
+  .home-page .hero-bottom{gap:22px}
+  .home-page .section-heading{gap:20px}
+  .home-page .additional-services-heading{margin-top:36px}
+}
+@media(max-width:560px){
+  .home-page .hero,.home-page .hero-content{min-height:750px}
+  .home-page .hero h1{max-width:100%;margin-top:25px}
+  .home-page .brass-object{top:238px;left:16%;width:255px;height:185px}
+  .home-page .hero-bottom{bottom:25px;gap:22px}
+  .home-page .section-heading{margin-bottom:26px}
+  .home-page .section-heading>p{margin-top:0}
+  .home-page summary{padding-block:21px}
+}
+@media(max-width:360px){.home-page .brass-object{left:12%;width:235px;top:230px}}
