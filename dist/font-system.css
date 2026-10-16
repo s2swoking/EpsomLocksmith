@@ -1,8 +1,9 @@
-/* Shared font roles for the public website, enquiry form and private portal pages.
-   Families and weights are defined once in styles.css. */
+/* Typography roles verified against the Figma reference.
+   Manrope regular: services, FAQs, enquiry headings and body.
+   Georgia regular: coverage, final call section and E mark; italic: hero accent. */
 body{font-family:var(--font-body);font-weight:var(--font-weight-body);font-synthesis:none}
 h1,h2{font-family:var(--font-heading);font-weight:var(--font-weight-heading)}
-h3,h4,h5,h6{font-family:var(--font-body);font-weight:var(--font-weight-label)}
+h3,h4,h5,h6{font-family:var(--font-heading);font-weight:var(--font-weight-heading)}
 strong,b{font-weight:var(--font-weight-strong)}
 button,input,select,textarea{font-family:var(--font-body);letter-spacing:0}
 input,select,textarea{font-weight:var(--font-weight-body)}
@@ -12,20 +13,22 @@ input::file-selector-button{font-family:var(--font-body);font-weight:var(--font-
 .button{font-family:var(--font-body);font-weight:var(--font-weight-strong)}
 body .brand strong{font-family:var(--font-body);font-weight:var(--font-weight-strong)}
 .home-page .hero h1{font-family:var(--font-body);font-weight:var(--font-weight-strong)}
-.home-page .hero h1 em{font-family:var(--font-heading);font-weight:var(--font-weight-heading);font-style:italic}
+.home-page .hero h1 em{font-family:var(--font-accent);font-weight:var(--font-weight-heading);font-style:italic}
 .home-page h2,.home-page .additional-services-heading h3{font-family:var(--font-heading);font-weight:var(--font-weight-heading)}
-.home-page .service-card h3,.home-page .additional-service h4{font-family:var(--font-body);font-weight:var(--font-weight-label)}
-body .eyebrow,body.home-page :is(.coverage-inner,.contact-inner) .eyebrow{font-family:var(--font-body);font-weight:var(--font-weight-label)}
-.enquiry-card label,.workflow-form label{font-family:var(--font-body);font-weight:var(--font-weight-label)}
+.home-page .service-card h3,.home-page .additional-service h4{font-family:var(--font-heading);font-weight:var(--font-weight-heading)}
+body .eyebrow,body.home-page :is(.coverage-inner,.contact-inner) .eyebrow{font-family:var(--font-body);font-weight:800}
+.enquiry-card label,.workflow-form label{font-family:var(--font-body);font-weight:var(--font-weight-body)}
 .enquiry-card input:not([type=file]),.enquiry-card select,.enquiry-card textarea,
 .workflow-form input,.workflow-form select,.workflow-form textarea{font-family:var(--font-body);font-weight:var(--font-weight-body)}
 .enquiry-card textarea::placeholder{font-size:inherit}
 .enquiry-upload input,.enquiry-upload input::file-selector-button{font-family:var(--font-body)}
-.home-page .brand .brand-mark,.portal-page .portal-header .brand-mark{font-family:var(--font-heading);font-weight:var(--font-weight-heading)}
+.home-page .brand .brand-mark,.portal-page .portal-header .brand-mark{font-family:var(--font-accent);font-weight:var(--font-weight-heading)}
 .portal-page .portal-panel h1,.portal-page .portal-title-row h1{font-family:var(--font-heading);font-weight:var(--font-weight-heading);line-height:1.15;letter-spacing:-.7px}
-.portal-page .job-card h2,.portal-page .job-create-panel h2{font-family:var(--font-body);font-weight:var(--font-weight-label);line-height:1.3;letter-spacing:-.3px}
+.portal-page .job-card h2,.portal-page .job-create-panel h2{font-family:var(--font-heading);font-weight:var(--font-weight-heading);line-height:1.3;letter-spacing:-.3px}
 .portal-page .job-status{font-weight:var(--font-weight-strong)}
 @media(max-width:560px){
   .enquiry-card input:not([type=file]),.enquiry-card select,.enquiry-card textarea,
   .workflow-form input,.workflow-form select,.workflow-form textarea{font-size:16px}
 }
+
+.home-page .additional-service>a{font-weight:var(--font-weight-strong)}
