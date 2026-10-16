@@ -4,8 +4,8 @@
 .home-page h3{font-weight:600;letter-spacing:-.55px;line-height:1.3}
 .home-page .brand strong{font-weight:700;letter-spacing:-.35px}
 .home-page .eyebrow{font-weight:600;letter-spacing:1.5px;font-size:11px}
-.home-page .hero h1{font-family:Manrope,Arial,sans-serif;font-weight:700;font-size:clamp(72px,7.2vw,104px);line-height:1.01;letter-spacing:-5px;max-width:54%;margin:54px 0 0;z-index:3}
-.home-page .hero h1 em{display:inline-block;font-family:Georgia,'Times New Roman',serif;font-size:1.12em;font-weight:400;font-style:italic;letter-spacing:-5px;color:#957638;padding:0 .09em .08em 0}
+.home-page .hero h1{font-family:var(--font-body);font-weight:700;font-size:clamp(72px,7.2vw,104px);line-height:1.01;letter-spacing:-5px;max-width:54%;margin:54px 0 0;z-index:3}
+.home-page .hero h1 em{display:inline-block;font-family:var(--font-heading);font-size:1.12em;font-weight:400;font-style:italic;letter-spacing:-5px;color:#957638;padding:0 .09em .08em 0}
 .home-page .hero-description{font-weight:600;font-size:22px;letter-spacing:-.55px}
 .home-page .hero-description span{font-size:15px;font-weight:400;letter-spacing:0}
 .home-page .hero-guide-prices strong{font-weight:600;letter-spacing:-1.4px}
