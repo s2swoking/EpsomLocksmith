@@ -19,3 +19,16 @@
 .additional-service>a svg{width:15px;height:15px}
 @media(max-width:800px){.service-card .service-photo{margin:-28px -28px 22px}.additional-services-heading{display:block}.additional-services-heading>p{margin-top:12px}.additional-services-grid{gap:14px}.additional-service{padding:19px;min-height:245px}}
 @media(max-width:560px){.service-price-promise{align-items:flex-start;padding:14px;margin:-4px 0 20px}.service-price-promise>svg{width:21px;height:21px}.service-price-promise p{font-size:13px}.service-card .service-photo{height:155px;margin:-26px -26px 22px}.additional-services-heading{margin-top:31px}.additional-services-heading h3{font-size:22px}.additional-services-grid{grid-template-columns:1fr;gap:12px}.additional-service{min-height:0;padding:18px}.additional-service>a{padding-top:12px}}
+
+/* Image-led service cards retain the site's existing colour and type system. */
+.additional-service{padding:0 0 24px;overflow:hidden;min-height:0}
+.additional-service-photo{width:100%;height:190px;margin:0 0 22px;background:var(--paper)}
+.additional-service-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.additional-service>h4,.additional-service>p,.additional-service>a,.additional-service-icon{margin-left:23px;margin-right:23px}
+.additional-service-icon{width:36px;height:36px;margin-bottom:12px}
+.additional-service h4{font-size:20px;line-height:1.3;margin-bottom:12px}
+.additional-service p{font-size:14px;line-height:1.75;margin-bottom:8px}
+.additional-service>a{font-size:13px;line-height:1.6;padding-top:18px}
+.service-card .service-photo{height:200px}
+@media(max-width:1000px) and (min-width:701px){.additional-services-grid{grid-template-columns:1fr}.additional-service{display:grid;grid-template-columns:220px 1fr;padding:0 24px 20px;column-gap:24px}.additional-service-photo{grid-column:1;grid-row:1 / 5;height:100%;min-height:230px;margin:0 0 -20px -24px;width:220px}.additional-service-icon{margin-top:20px}.additional-service>h4,.additional-service>p,.additional-service>a,.additional-service-icon{grid-column:2;margin-left:0;margin-right:0}.additional-service>a{margin-top:0}}
+@media(max-width:700px){.additional-services-grid{grid-template-columns:1fr;gap:22px}.additional-service-photo{height:210px}.service-card .service-photo{height:190px}.additional-service h4{font-size:22px}.additional-service p{font-size:16px}.additional-service>a{font-size:14px}.additional-service{padding-bottom:24px}}
