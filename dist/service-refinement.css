@@ -1,66 +1,59 @@
-/* Service cards: restrained proportions, clear guide prices and the established palette. */
+/* Featured services: return to light cards with balanced text and compact actions. */
 .home-page .services-grid{gap:26px;align-items:stretch}
 .home-page .services-grid .service-card{
-  padding:0;overflow:hidden;border-radius:16px;
-  border:1px solid #d8d9cf;box-shadow:0 14px 38px #1832290b;
+  padding:0;overflow:hidden;border-radius:10px;
+  border:1px solid #dce0d9;box-shadow:none;color:#283b32;
 }
-.home-page .services-grid .emergency-card{background:#183229;border-color:#183229;color:#fffdf8}
-.home-page .services-grid .repair-card{background:#fffdf8;border-color:#d8d9cf;color:#183229}
+.home-page .services-grid .emergency-card{background:#faf6eb;border-color:#e5dac0}
+.home-page .services-grid .repair-card{background:#fff}
 .home-page .services-grid .service-card .service-photo{
-  position:relative;height:210px;margin:0;overflow:hidden;border-radius:0;flex-shrink:0;
+  height:210px;margin:0;overflow:hidden;border-radius:0;flex-shrink:0;
 }
-.home-page .services-grid .service-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 50%;filter:saturate(.85)}
-.home-page .services-grid .service-tag{
-  position:absolute;top:18px;left:20px;display:inline-flex;align-items:center;gap:7px;
-  padding:8px 12px;border:1px solid #fffdf84d;border-radius:100px;
-  background:#183229ed;color:#fffdf8;font-size:12px;font-weight:700;line-height:1.4;
-  letter-spacing:.025em;
+.home-page .services-grid .service-photo img{
+  width:100%;height:100%;display:block;object-fit:cover;object-position:center 50%;
 }
-.home-page .services-grid .service-tag svg{width:15px;height:15px}
-.home-page .service-body{display:flex;flex-direction:column;flex:1;padding:28px 30px 30px;min-width:0}
+.home-page .service-body{display:flex;flex-direction:column;flex:1;padding:26px 28px;min-width:0}
 .home-page .services-grid .service-card h3{
-  font-family:var(--font-body);font-size:28px;font-weight:600;line-height:1.16;letter-spacing:-.035em;
-  margin:0;color:inherit;
+  margin:0;color:inherit;font-family:var(--font-body);font-size:28px;
+  font-weight:400;line-height:1.2;letter-spacing:-.035em;
 }
 .home-page .services-grid .service-intro{
-  font-size:16px;font-weight:400;line-height:1.6;letter-spacing:normal;
-  min-height:3.2em;margin:12px 0 0;color:#d1dcd4;
+  margin:14px 0 24px;color:#59665e;font-size:16px;
+  font-weight:400;line-height:1.65;letter-spacing:normal;
 }
-.home-page .services-grid .repair-card .service-intro{color:#52665b}
+.home-page .services-grid .service-footer{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  margin-top:auto;padding-top:18px;border-top:1px solid #dce0d9;
+}
+.home-page .services-grid .emergency-card .service-footer{border-color:#e5dac0}
 .home-page .services-grid .service-card .price{
-  display:block;margin:18px 0 0;padding:0 0 18px;border-bottom:1px solid #ffffff26;
+  display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+  margin:0;padding:0;border:0;
 }
-.home-page .services-grid .repair-card .price{border-bottom-color:#d8ded6}
 .home-page .services-grid .service-card .price-prefix{
-  display:block;margin:0 0 3px;color:#c6d3c9;font-size:12px;font-weight:600;
-  line-height:1.5;letter-spacing:.08em;text-transform:uppercase;
+  display:block;margin:0;color:#59665e;font-size:13px;font-weight:400;
+  line-height:1.5;letter-spacing:normal;text-transform:none;
 }
-.home-page .services-grid .repair-card .price-prefix{color:#5a6a60}
 .home-page .services-grid .service-card .price strong{
-  display:block;font-family:var(--font-accent);font-size:44px;font-weight:400;
-  line-height:1.08;letter-spacing:-.04em;color:#e8c77e;font-variant-numeric:lining-nums;
+  display:block;color:#283b32;font-family:var(--font-accent);font-size:28px;
+  font-weight:400;line-height:1.2;letter-spacing:normal;
 }
-.home-page .services-grid .repair-card .price strong{color:#183229}
-.home-page .services-grid .service-list{
-  display:grid;gap:10px;margin:18px 0 22px;padding:0;list-style:none;
-  font-size:16px;font-weight:400;line-height:1.5;letter-spacing:normal;color:#edf2ec;
-}
-.home-page .services-grid .repair-card .service-list{color:#40584b}
-.home-page .services-grid .service-list li{display:flex;align-items:flex-start;gap:10px}
-.home-page .services-grid .service-list svg{width:17px;height:17px;margin-top:3px;color:#e8c77e}
-.home-page .services-grid .repair-card .service-list svg{color:#73896d}
 .home-page .services-grid .service-action{
-  width:100%;margin-top:auto;min-height:54px;gap:10px;padding:14px 16px;
-  border-radius:8px;border:1px solid transparent;
-  font-family:var(--font-body);font-size:16px;font-weight:700;line-height:1.5;letter-spacing:normal;
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:auto;min-height:44px;margin:0;padding:10px 14px;gap:8px;
+  border-radius:6px;border:1px solid transparent;
+  font-family:var(--font-body);font-size:15px;font-weight:600;
+  line-height:1.5;letter-spacing:normal;
 }
-.home-page .services-grid .service-action svg{width:19px;height:19px}
-.home-page .services-grid .service-action svg:last-child{margin-left:auto}
-.home-page .services-grid .emergency-card .service-action{background:#e8c77e;color:#183229;border-color:#e8c77e}
-.home-page .services-grid .emergency-card .service-action:hover{background:#f1d89f}
-.home-page .services-grid .repair-card .service-action{background:#183229;color:#fffdf8;border-color:#183229}
-.home-page .services-grid .repair-card .service-action:hover{background:#2a4a3d}
-.home-page .services-grid .emergency-card .service-action:focus-visible{outline:3px solid #e8c77e;outline-offset:4px}
+.home-page .services-grid .service-action svg{width:18px;height:18px;margin:0;flex-shrink:0}
+.home-page .services-grid .emergency-card .service-action{background:#244236;color:#fff;border-color:#244236}
+.home-page .services-grid .emergency-card .service-action:hover{background:#183229}
+.home-page .services-grid .repair-card .service-action{
+  padding-inline:0;background:transparent;color:#244236;border:0;
+  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;
+}
+.home-page .services-grid .repair-card .service-action:hover{color:#0f241a;text-decoration-thickness:2px}
+.home-page .services-grid .service-action:focus-visible{outline:2px solid #997535;outline-offset:4px}
 .home-page .pricing-footer{
   max-width:850px;margin:22px auto 0;color:#52665b;font-size:15px;line-height:1.6;text-align:center;
 }
@@ -77,25 +70,21 @@
 .home-page details p{font-size:16px;line-height:1.6}
 .home-page #faq-title{font-family:var(--font-body);font-size:clamp(30px,3vw,38px);font-weight:400;line-height:1.2;letter-spacing:-.035em}
 .home-page .faq-list summary{font-size:17px;line-height:1.5}
-@media(min-width:801px) and (max-width:1040px){
-  .home-page .services-grid .service-card h3{min-height:2.32em}
-  .home-page .service-body{padding:26px 24px 28px}
-}
 @media(max-width:800px){
   .home-page .services-grid{gap:24px}
-  .home-page .services-grid .service-intro{min-height:0}
 }
 @media(max-width:560px){
   .home-page .services-grid .service-card .service-photo{height:190px}
-  .home-page .service-body{padding:24px}
-  .home-page .services-grid .service-card h3{font-size:26px}
-  .home-page .services-grid .service-card .price strong{font-size:40px}
-  .home-page .services-grid .service-action{font-size:15px;padding-inline:13px}
+  .home-page .service-body{padding:22px}
+  .home-page .services-grid .service-card h3{font-size:25px}
+  .home-page .services-grid .service-intro{margin-bottom:22px}
   .home-page .pricing-footer{font-size:14px;text-align:left}
   .home-page .additional-services-heading{margin-top:38px}
 }
 @media(max-width:360px){
-  .home-page .service-body{padding:22px 20px 24px}
-  .home-page .services-grid .service-card h3{font-size:26px}
-  .home-page .services-grid .service-action{gap:8px;font-size:14px}
+  .home-page .service-body{padding:20px}
+  .home-page .services-grid .service-card h3{font-size:24px}
+  .home-page .services-grid .service-footer{gap:12px}
+  .home-page .services-grid .service-action{font-size:14px;padding-inline:12px}
+  .home-page .services-grid .repair-card .service-action{padding-inline:0}
 }
