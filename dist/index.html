@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./enquiry.css">
   <link rel="stylesheet" href="./brand-refinement.css">
   <link rel="stylesheet" href="./font-system.css?v=copy-cleanup-20261017-1">
+  <link rel="stylesheet" href="./service-refinement.css?v=20261017-1">
   <script src="./enquiry.js" defer></script>
   <script src="./assets/lucide.min.js" defer></script>
   <script src="./workflow-config.js"></script>
@@ -39,7 +40,7 @@
         <div class="hero-topline"><div class="eyebrow">YOUR NEIGHBOURHOOD LOCKSMITH</div><p class="hero-location">Epsom / Ewell West / Worcester Park</p></div>
         <h1 id="hero-title">Your local<br><em>locksmith.</em></h1>
         <img class="hero-image brass-object" src="./assets/brass-lock.webp" alt="A detailed brass door lock cylinder with its key inserted" width="1024" height="1024" fetchpriority="high">
-        <div class="hero-bottom"><div class="hero-copy"><p class="hero-description">Go local. Get help close to home.</p><div class="hero-actions"><a class="button button-lime" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help</a><a class="button button-outline-light" href="#enquiry"><i data-lucide="mail" aria-hidden="true"></i>Send an enquiry</a></div></div><div class="hero-guide-prices" aria-label="Service guide prices"><a href="#emergency"><span>Emergency door opening · guide price</span><strong>£89</strong><small>Callout + labour included</small></a><a href="#lock-repair"><span>Lock replacement · guide price</span><strong><small>from</small> £65</strong><small>New lock + fitting included</small></a></div></div>
+        <div class="hero-bottom"><div class="hero-copy"><p class="hero-description">Go local. Get help close to home.</p><div class="hero-actions"><a class="button button-lime" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help</a><a class="button button-outline-light" href="#enquiry"><i data-lucide="mail" aria-hidden="true"></i>Send an enquiry</a></div></div><div class="hero-guide-prices" aria-label="Service guide prices"><a href="#emergency"><span>Emergency door opening · guide price</span><strong>£89</strong></a><a href="#lock-repair"><span>Lock replacement · guide price</span><strong><small>from</small> £65</strong></a></div></div>
       </div>
     </section>
     <section id="services" class="section services-section" aria-labelledby="services-title">
@@ -47,20 +48,24 @@
         <h2 id="services-title" class="visually-hidden">Our services</h2>
         <div class="services-grid">
           <article id="emergency" class="service-card emergency-card">
-            <figure class="service-photo"><img src="./assets/front-door.webp" alt="A front door with a secure door lock" loading="lazy" width="1600" height="1067"></figure>
-            <div class="service-top"><span class="service-icon"><i data-lucide="door-open" aria-hidden="true"></i></span><span class="service-tag"><i data-lucide="clock-3" aria-hidden="true"></i>24 hours, 7 days</span></div>
-            <h3>Emergency door opening</h3><p class="service-intro">Locked out? Get help back into your home.</p>
-            <div class="price"><span class="price-prefix">Guide price</span><strong>£89</strong><span class="price-includes">Callout + labour included</span></div>
-            <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>Wooden, uPVC, composite &amp; aluminium doors</li><li><i data-lucide="check" aria-hidden="true"></i>Broken-key extraction</li><li><i data-lucide="check" aria-hidden="true"></i>Non-destructive entry where possible</li></ul>
-            <a class="button button-lime service-action" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help</a>
+            <figure class="service-photo"><img src="./assets/front-door.webp" alt="A front door with a secure door lock" loading="lazy" width="1600" height="1067"><span class="service-tag"><i data-lucide="clock-3" aria-hidden="true"></i>24/7 emergency help</span></figure>
+            <div class="service-body">
+              <h3>Emergency door opening</h3>
+              <p class="service-intro">Locked out in Epsom or nearby? Get help back inside.</p>
+              <div class="price"><span class="price-prefix">Guide price</span><strong>£89</strong></div>
+              <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>Lost, broken or stuck keys</li><li><i data-lucide="check" aria-hidden="true"></i>Non-destructive entry where possible</li></ul>
+              <a class="button service-action" href="#contact" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Call for emergency help<i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
           </article>
           <article id="lock-repair" class="service-card repair-card">
             <figure class="service-photo"><img src="./assets/lock-repair-nightlatch-v3.webp" alt="A silver rim nightlatch fitted to an oak front door" loading="lazy" width="1200" height="800"></figure>
-            <div class="service-top"><span class="service-icon"><i data-lucide="key-round" aria-hidden="true"></i></span><span class="service-tag">REPAIR · REPLACE · SECURE</span></div>
-            <h3>Lock repairs &amp; replacement</h3><p class="service-intro">Stiff or faulty lock? We’ll repair or replace it.</p>
-            <div class="price"><span class="price-prefix">Guide price from</span><strong>£65</strong><span class="price-includes">New lock + fitting included</span></div>
-            <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>British Standard mortice locks (BS3621)</li><li><i data-lucide="check" aria-hidden="true"></i>Anti-snap, anti-bump &amp; rim cylinders</li><li><i data-lucide="check" aria-hidden="true"></i>uPVC door &amp; window mechanisms</li></ul>
-            <a class="button button-dark service-action" href="#enquiry" data-service="Lock replacement or repair"><i data-lucide="mail" aria-hidden="true"></i>Enquire about repairs</a>
+            <div class="service-body">
+              <h3>Lock repairs &amp; replacement</h3>
+              <p class="service-intro">Stiff or faulty lock? We’ll repair or replace it.</p>
+              <div class="price"><span class="price-prefix">Guide price from</span><strong>£65</strong></div>
+              <ul class="service-list"><li><i data-lucide="check" aria-hidden="true"></i>Locks that stick or won’t turn</li><li><i data-lucide="check" aria-hidden="true"></i>Lock changes when you move home</li></ul>
+              <a class="button service-action" href="#enquiry" data-service="Lock replacement or repair"><i data-lucide="mail" aria-hidden="true"></i>Enquire about repairs<i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
           </article>
         </div>
         <p class="pricing-footer"><i data-lucide="info" aria-hidden="true"></i>Prices are guides. We assess the job and agree your price before work begins.</p>
@@ -77,11 +82,8 @@
     </section>
     <section id="areas" class="areas-section local-coverage" aria-labelledby="areas-title"><div class="container coverage-inner"><p class="eyebrow">AREAS COVERED</p><h2 id="areas-title">Right here, around Epsom.</h2><ul class="place-list" aria-label="Areas covered"><li>Epsom</li><li>Ewell West</li><li>Worcester Park</li></ul><p class="coverage-note">Call for availability and an arrival estimate.</p></div></section>
     <section id="questions" class="section faq-section" aria-labelledby="faq-title"><div class="container faq-layout"><div><h2 id="faq-title">Before you call.</h2></div><div class="faq-list">
-      <details><summary>Is £89 the total price for a lockout?<i data-lucide="plus" aria-hidden="true"></i></summary><p>£89 is a guide price including callout and labour. Extra work may cost more; we confirm the price before starting.</p></details>
-      <details><summary>What does the lock replacement price include?<i data-lucide="plus" aria-hidden="true"></i></summary><p>From £65 includes a new lock, fitting and sealed factory keys. The final price depends on the lock and work needed.</p></details>
       <details><summary>Can you help with a uPVC or composite door?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Yes—wooden, uPVC, composite and aluminium doors, including lock cylinders and door or window mechanisms.</p></details>
       <details><summary>Can you help with car locks or after a break-in?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Yes. Tell us what has happened and where you are so we can confirm the options.</p></details>
-      <details><summary>Will you confirm the price before working on my lock?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Yes. We assess the job and agree the price with you before starting.</p></details>
       <details><summary>Will my door need to be damaged to open it?<i data-lucide="plus" aria-hidden="true"></i></summary><p>We aim for non-destructive entry. A damaged or failed lock may need replacing.</p></details>
       <details><summary>How quickly can you get here?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Arrival depends on your location and availability. Call for a current estimate.</p></details>
     </div></div></section>
