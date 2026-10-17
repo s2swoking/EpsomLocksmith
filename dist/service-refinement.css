@@ -17,10 +17,14 @@
   margin:0;color:inherit;font-family:var(--font-body);font-size:28px;
   font-weight:400;line-height:1.2;letter-spacing:-.035em;
 }
-.home-page .services-grid .service-intro{
-  margin:14px 0 24px;color:#59665e;font-size:16px;
-  font-weight:400;line-height:1.65;letter-spacing:normal;
+.home-page .services-grid .service-list{
+  display:grid;gap:14px;list-style:none;margin:20px 0 26px;padding:0;border:0;
+  color:#45564c;font-size:18px;font-weight:400;line-height:1.55;letter-spacing:normal;
 }
+.home-page .services-grid .service-list li{display:flex;align-items:flex-start;gap:12px;margin:0;padding:0}
+.home-page .services-grid .service-list svg{width:18px;height:18px;flex-shrink:0;margin-top:5px;color:#8d7039}
+.home-page .services-grid .repair-card .service-list svg{color:#486753}
+.home-page .services-grid .service-list span{min-width:0}
 .home-page .services-grid .service-footer{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
   margin-top:auto;padding-top:18px;border-top:1px solid #dce0d9;
@@ -77,7 +81,6 @@
   .home-page .services-grid .service-card .service-photo{height:190px}
   .home-page .service-body{padding:22px}
   .home-page .services-grid .service-card h3{font-size:25px}
-  .home-page .services-grid .service-intro{margin-bottom:22px}
   .home-page .pricing-footer{font-size:14px;text-align:left}
   .home-page .additional-services-heading{margin-top:38px}
 }
