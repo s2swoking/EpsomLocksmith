@@ -1,7 +1,7 @@
 'use strict';
 
-// Replace these two values when the business details are confirmed.
-const business = { name: 'Epsom Local Locksmith', phone: '' };
+// Confirmed business contact details.
+const business = { name: 'Epsom Local Locksmith', phone: '020 4505 8291' };
 
 document.querySelectorAll('[data-brand]').forEach(element => { element.textContent = business.name; });
 const year = document.getElementById('year');
@@ -27,10 +27,11 @@ window.matchMedia('(min-width: 801px)').addEventListener('change', event => { if
 
 const phoneLink = document.querySelector('.contact-phone');
 if (business.phone) {
-  const dialNumber = business.phone.replace(/[^+\d]/g, '');
+  const digits = business.phone.replace(/[^+\d]/g, '');
+  const dialNumber = digits.startsWith('0') ? '+44' + digits.slice(1) : digits;
   phoneLink.href = 'tel:' + dialNumber;
   phoneLink.removeAttribute('aria-disabled');
-  phoneLink.querySelector('span').textContent = 'Call now';
+  phoneLink.querySelector('span').textContent = business.phone;
   phoneLink.setAttribute('aria-label', `Call ${business.name} on ${business.phone}`);
   document.querySelectorAll('[data-call-link]').forEach(link => { link.href = 'tel:' + dialNumber; });
   document.querySelector('.contact-status').textContent = 'Call for a quote and current arrival estimate.';
