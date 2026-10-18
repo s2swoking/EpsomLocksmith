@@ -12,6 +12,9 @@
   const types = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', mp4: 'video/mp4', mov: 'video/quicktime' };
   let ready = false;
   let sending = false;
+  let requestId = null;
+  form.addEventListener('input', () => { if (!sending) requestId = null; });
+  form.addEventListener('change', () => { if (!sending) requestId = null; });
 
   function setStatus(message, state = '') {
     status.textContent = message;
@@ -19,7 +22,7 @@
   }
   const choices = new Set(Array.from(service.options, option => option.value));
   document.querySelectorAll('[data-service]').forEach(link => link.addEventListener('click', () => {
-    if (choices.has(link.dataset.service)) service.value = link.dataset.service;
+    if (choices.has(link.dataset.service)) { service.value = link.dataset.service; requestId = null; }
   }));
 
   function validateAttachment() {
@@ -35,7 +38,7 @@
     return file.validity.valid;
   }
   file.addEventListener('change', validateAttachment);
-  remove.addEventListener('click', () => { file.value = ''; validateAttachment(); });
+  remove.addEventListener('click', () => { file.value = ''; requestId = null; validateAttachment(); });
 
   fetch('/api/contact', { cache: 'no-store', signal: AbortSignal.timeout(8000) })
     .then(async response => {
@@ -53,6 +56,8 @@
     validateAttachment();
     if (!form.reportValidity()) return;
     const data = new FormData(form);
+    requestId ||= crypto.randomUUID();
+    data.set('requestId', requestId);
     if (!file.files.length) data.delete('attachment');
     sending = true;
     submit.disabled = true;
@@ -65,14 +70,16 @@
         method: 'POST', body: data, signal: AbortSignal.timeout(25000),
       });
       const result = await response.json();
-      if (!response.ok || result.sent !== true) {
+      if (response.status === 409) requestId = null;
+      if (!response.ok || result.sent !== true || result.reference !== requestId) {
         const message = typeof result.error === 'string' ? result.error : 'We could not confirm your enquiry was sent. Please call 020 4505 8291 before trying again.';
         setStatus(message, 'error');
         return;
       }
       form.reset();
+      requestId = null;
       validateAttachment();
-      setStatus('Thank you. Your enquiry has been sent. We’ll get back to you using the contact details you provided.', 'success');
+      setStatus('Thank you. Your enquiry has been received. We’ll get back to you using the contact details you provided.', 'success');
       status.focus();
     } catch {
       setStatus('We could not confirm your enquiry was sent. Please call 020 4505 8291 before trying again. Your details are still here.', 'error');
@@ -84,3 +91,4 @@
     }
   });
 })();
+

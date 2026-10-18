@@ -1,110 +1,139 @@
 import test, { afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { GET, POST } from '../api/contact.mjs';
+import { sendGmailNotification, gmailConfiguration, notifyEnquiry } from '../lib/enquiry-mail.mjs';
 
-const originalFetch = globalThis.fetch;
-const originalRecipient = process.env.CONTACT_TO_EMAIL;
+const savedFetch = globalThis.fetch;
+const envNames = ['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','CONTACT_TO_EMAIL','GMAIL_APP_PASSWORD'];
+const savedEnv = Object.fromEntries(envNames.map(name => [name, process.env[name]]));
+const ID = 'e13799c6-9372-45f5-9ac2-d88f278eb231';
+const config = { url: 'https://example.supabase.co', key: 'server-secret-test-only' };
 afterEach(() => {
-  globalThis.fetch = originalFetch;
-  if (originalRecipient === undefined) delete process.env.CONTACT_TO_EMAIL;
-  else process.env.CONTACT_TO_EMAIL = originalRecipient;
+  globalThis.fetch = savedFetch;
+  envNames.forEach(name => savedEnv[name] === undefined ? delete process.env[name] : process.env[name] = savedEnv[name]);
 });
+function configure() {
+  process.env.SUPABASE_URL = config.url;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = config.key;
+  delete process.env.GMAIL_APP_PASSWORD;
+  process.env.CONTACT_TO_EMAIL = 'private-business@gmail.com';
+}
 function form(changes = {}) {
   const data = new FormData();
-  const values = { name: 'Website test', phone: '00000000000', email: 'test@example.com', postcode: 'kt17 1aa', service: 'Lock replacement or repair', message: 'TEST ONLY. No visit required.', ...changes };
-  for (const [name, value] of Object.entries(values)) data.set(name, value);
+  const fields = { requestId: ID, name: 'WEBSITE TEST', phone: '00000000000', email: 'test@example.com', postcode: 'kt17 1aa', service: 'Lock replacement or repair', message: 'TEST ONLY. No visit or callback required.', ...changes };
+  Object.entries(fields).forEach(([key,value]) => data.set(key,value));
   return data;
 }
-function request(data, origin = 'https://epsomlocksmith.vercel.app') {
-  process.env.CONTACT_TO_EMAIL = 'private-recipient@example.com';
-  return new Request('https://epsomlocksmith.vercel.app/api/contact', { method: 'POST', headers: { Origin: origin }, body: data });
+function request(data = form(), origin = 'https://epsomlocksmiths.co.uk') {
+  configure();
+  return new Request(origin + '/api/contact', { method: 'POST', headers: { Origin: origin, 'x-forwarded-for': '192.0.2.1' }, body: data });
 }
-test('configuration health never reveals the recipient', async () => {
-  delete process.env.CONTACT_TO_EMAIL;
-  assert.equal(GET().status, 503);
-  process.env.CONTACT_TO_EMAIL = 'private-recipient@example.com';
-  assert.deepEqual(await GET().json(), { ready: true, maxFileBytes: 3000000 });
+test('health checks real table and private bucket, without exposing credentials', async () => {
+  configure();
+  globalThis.fetch = async url => url.includes('/bucket/') ? Response.json({ id: 'website-enquiries', public: false }) : Response.json([]);
+  assert.deepEqual(await (await GET()).json(), { ready: true, maxFileBytes: 3000000 });
+  globalThis.fetch = async () => Response.json({ public: true });
+  assert.equal((await GET()).status, 503);
 });
-test('rejects cross-site submission before contacting the provider', async () => {
-  globalThis.fetch = () => { throw new Error('Must not send'); };
+test('rejects unknown origins, missing fields and honeypots before saving', async () => {
+  globalThis.fetch = () => { throw new Error('Unexpected database access'); };
   assert.equal((await POST(request(form(), 'https://unrelated.example'))).status, 403);
-});
-test('rejects incomplete fields and malformed email', async () => {
-  assert.equal((await POST(request(form({ name: '   ' })))).status, 400);
-  assert.equal((await POST(request(form({ email: 'invalid-address' })))).status, 400);
-});
-test('rejects unknown services and filled honeypot', async () => {
-  assert.equal((await POST(request(form({ service: 'Other invented service' })))).status, 400);
+  assert.equal((await POST(request(form({ name: '' })))).status, 400);
   assert.equal((await POST(request(form({ website: 'spam' })))).status, 400);
+  assert.equal((await POST(request(form({ requestId: 'not-a-uuid' })))).status, 400);
 });
-test('forwards the fixed private recipient and submitted details', async () => {
+test('saves an enquiry even when no Gmail credential is configured', async () => {
   globalThis.fetch = async (url, options) => {
-    assert.equal(url, 'https://formsubmit.co/ajax/private-recipient%40example.com');
-    assert.equal(options.body.get('email'), 'test@example.com');
-    assert.equal(options.body.get('postcode'), 'KT17 1AA');
-    assert.equal(options.body.get('_subject'), 'New website enquiry: Lock replacement or repair');
-    assert.equal(options.body.get('_cc'), null);
-    return Response.json({ success: 'true' });
+    assert.equal(url, config.url + '/rest/v1/rpc/reserve_website_enquiry');
+    const body = JSON.parse(options.body);
+    assert.equal(body.p_fields.postcode, 'KT17 1AA');
+    assert.equal(body.p_fields.email, 'test@example.com');
+    assert.equal(body.p_id, ID);
+    assert.match(body.p_client_hash, /^[a-f0-9]{64}$/);
+    assert.equal(options.headers.apikey, config.key);
+    assert.equal(JSON.stringify(body).includes('192.0.2.1'), false);
+    return Response.json({ id: ID, attachment_ready: true, notification_status: 'pending' });
   };
-  const response = await POST(request(form({ _cc: 'someone-else@example.com' })));
-  assert.deepEqual(await response.json(), { sent: true });
+  const result = await POST(request());
+  assert.equal(result.status, 200);
+  assert.deepEqual(await result.json(), { sent: true, reference: ID, notification: 'pending' });
 });
-test('preserves photo bytes and attachment name', async () => {
-  const png = new Uint8Array([137,80,78,71,13,10,26,10,0,0,0,0]);
-  const data = form();
-  data.set('attachment', new Blob([png], { type: 'image/png' }), 'lock-photo.png');
+test('never reports receipt when database rejects the save', async () => {
+  globalThis.fetch = async () => new Response('secret provider detail', { status: 500 });
+  const response = await POST(request());
+  assert.equal(response.status, 502);
+  const text = await response.text();
+  assert.equal(text.includes('secret provider detail'), false);
+  assert.equal(text.includes(config.key), false);
+});
+test('reports a database rate limit and idempotency conflict correctly', async () => {
+  globalThis.fetch = async () => Response.json({ error: 'RATE_LIMIT' });
+  assert.equal((await POST(request())).status, 429);
+  globalThis.fetch = async () => Response.json({ error: 'ID_CONFLICT' });
+  assert.equal((await POST(request())).status, 409);
+});
+test('saves photo bytes in private storage and marks ready only after upload succeeds', async () => {
+  const bytes = new Uint8Array([137,80,78,71,13,10,26,10,0,0,0,0]);
+  const data = form(); data.set('attachment', new Blob([bytes], { type: 'image/png' }), 'lock.png');
+  const calls = [];
   globalThis.fetch = async (url, options) => {
-    const uploaded = options.body.get('attachment');
-    assert.equal(uploaded.name, 'lock-photo.png');
-    assert.deepEqual(new Uint8Array(await uploaded.arrayBuffer()), png);
-    return Response.json({ success: true });
+    calls.push(url);
+    if (url.endsWith('reserve_website_enquiry')) return Response.json({ id: ID, attachment_ready: false, notification_status: 'pending' });
+    if (url.includes('/storage/')) {
+      assert.equal(url, config.url + '/storage/v1/object/website-enquiries/' + ID + '/lock.png');
+      assert.deepEqual(options.body, bytes);
+      return Response.json({ Key: 'saved' });
+    }
+    assert.deepEqual(JSON.parse(options.body), { attachment_ready: true });
+    return new Response(null, { status: 204 });
   };
   assert.equal((await POST(request(data))).status, 200);
+  assert.equal(calls.length, 3);
 });
-test('uses the activated canonical root for enquiries from every allowed alias', async () => {
-  globalThis.fetch = async (url, options) => {
-    assert.equal(options.headers.Origin, 'https://epsomlocksmiths.co.uk');
-    assert.equal(options.headers.Referer, 'https://epsomlocksmiths.co.uk/');
-    assert.equal(options.body.get('_url'), 'https://epsomlocksmiths.co.uk/');
-    assert.equal(options.body.get('website_url'), 'https://epsomlocksmith.vercel.app/#enquiry');
-    return Response.json({ success: true });
+test('keeps the saved record retryable if attachment upload fails', async () => {
+  const data = form(); data.set('attachment', new Blob([new Uint8Array([255,216,255,0])], { type: 'image/jpeg' }), 'lock.jpg');
+  let reserved = false;
+  globalThis.fetch = async url => {
+    if (url.endsWith('reserve_website_enquiry')) { reserved = true; return Response.json({ id: ID, attachment_ready: false }); }
+    return new Response('upload failed', { status: 503 });
   };
-  assert.equal((await POST(request(form()))).status, 200);
+  assert.equal((await POST(request(data))).status, 502);
+  assert.equal(reserved, true);
 });
-test('preserves MP4 bytes when forwarding a short video', async () => {
-  const video = new Uint8Array([0,0,0,16,102,116,121,112,105,115,111,109]);
-  const data = form();
-  data.set('attachment', new Blob([video], { type: 'video/mp4' }), 'lock-video.mp4');
+test('rejects oversized and disguised attachments before any database write', async () => {
+  globalThis.fetch = () => { throw new Error('Must not save'); };
+  const large = form(); large.set('attachment', new Blob([new Uint8Array(3000001)], { type: 'image/png' }), 'large.png');
+  assert.equal((await POST(request(large))).status, 413);
+  const fake = form(); fake.set('attachment', new Blob(['not an image'], { type: 'image/png' }), 'fake.png');
+  assert.equal((await POST(request(fake))).status, 400);
+});
+test('Gmail transport fixes sender/recipient to server settings and preserves attachment bytes', async () => {
+  const mail = { user: 'private-business@gmail.com', pass: 'abcdefghijklmnop' };
+  const bytes = Buffer.from('test attachment');
+  let closed = false;
+  const id = await sendGmailNotification(mail, { id: ID, name: 'Test', phone: '000', email: 'customer@example.com', postcode: 'KT17', service: 'Lock repair', message: 'TEST ONLY', to: 'attacker@example.com', attachment_name: 'photo.png', attachment_type: 'image/png', attachment: bytes }, options => {
+    assert.equal(options.host, 'smtp.gmail.com'); assert.equal(options.secure, true);
+    assert.equal(options.disableUrlAccess, true); assert.equal(options.disableFileAccess, true);
+    return { sendMail: async message => {
+      assert.equal(message.to, mail.user); assert.equal(message.from.address, mail.user);
+      assert.equal(message.replyTo, 'customer@example.com');
+      assert.deepEqual(message.attachments[0].content, bytes);
+      return { accepted: [mail.user], messageId: 'test-message' };
+    }, close: () => { closed = true; } };
+  });
+  assert.equal(id, 'test-message'); assert.equal(closed, true);
+});
+test('Gmail rejection never counts as sent', async () => {
+  await assert.rejects(sendGmailNotification({ user: 'private-business@gmail.com', pass: 'abcdefghijklmnop' }, { id: ID, email: 'test@example.com' }, () => ({ sendMail: async () => ({ accepted: [] }) })), /GMAIL_REJECTED/);
+  assert.equal(gmailConfiguration({ CONTACT_TO_EMAIL: 'private-business@gmail.com', GMAIL_APP_PASSWORD: 'abcd efgh ijkl mnop' }).pass, 'abcdefghijklmnop');
+});
+test('Gmail failure leaves a saved enquiry pending for retry', async () => {
+  const patches = [];
   globalThis.fetch = async (url, options) => {
-    assert.equal(options.body.get('attachment').type, 'video/mp4');
-    assert.deepEqual(new Uint8Array(await options.body.get('attachment').arrayBuffer()), video);
-    return Response.json({ success: true });
+    if (url.includes('claim_website_notification')) return Response.json(true);
+    if (options.method === 'PATCH') { patches.push(JSON.parse(options.body)); return new Response(null, { status: 204 }); }
+    return Response.json([{ id: ID, attachment_ready: true, email: 'test@example.com' }]);
   };
-  assert.equal((await POST(request(data))).status, 200);
-});
-test('rejects oversized attachments', async () => {
-  const data = form();
-  data.set('attachment', new Blob([new Uint8Array(3000001)], { type: 'image/png' }), 'large.png');
-  assert.equal((await POST(request(data))).status, 413);
-});
-test('rejects unsupported file types and disguised file contents', async () => {
-  for (const [contents, type, filename] of [['bad', 'text/plain', 'notes.txt'], ['not a photo', 'image/png', 'fake.png']]) {
-    const data = form();
-    data.set('attachment', new Blob([contents], { type }), filename);
-    assert.equal((await POST(request(data))).status, 400);
-  }
-});
-test('does not report success or leak destination when provider rejects a submission', async () => {
-  globalThis.fetch = async () => Response.json({ success: false, message: 'Private recipient is private-recipient@example.com' });
-  const response = await POST(request(form()));
-  assert.equal(response.status, 502);
-  assert.equal((await response.text()).includes('private-recipient@example.com'), false);
-});
-test('identifies activation required without exposing the provider message', async () => {
-  globalThis.fetch = async () => Response.json({ success: 'false', message: 'Please activate this form for private-recipient@example.com' });
-  const response = await POST(request(form()));
-  assert.equal(response.status, 502);
-  const result = await response.json();
-  assert.equal(result.code, 'ACTIVATION_REQUIRED');
-  assert.equal(JSON.stringify(result).includes('private-recipient@example.com'), false);
+  assert.equal(await notifyEnquiry(config, ID, { user: 'private-business@gmail.com', pass: 'abcdefghijklmnop' }, async () => { throw new Error('Gmail unavailable'); }), 'pending');
+  assert.deepEqual(patches, [{ notification_status: 'pending' }]);
 });

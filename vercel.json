@@ -2,11 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "buildCommand": "",
-  "installCommand": "",
+  "installCommand": "npm install --omit=dev --ignore-scripts",
   "outputDirectory": "dist",
-  "functions": {
-    "api/contact.mjs": {
-      "maxDuration": 30
-    }
-  }
+  "functions": { "api/contact.mjs": { "maxDuration": 30 } }
 }

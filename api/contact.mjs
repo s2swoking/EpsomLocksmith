@@ -1,9 +1,10 @@
+import { createHash, createHmac } from 'node:crypto';
+import { BUCKET, database, databaseConfiguration, rpc, storageReady, updateEnquiry } from '../lib/enquiry-store.mjs';
+import { gmailConfiguration, notifyEnquiry } from '../lib/enquiry-mail.mjs';
+
 const MAX_FILE_BYTES = 3_000_000;
 const MAX_REQUEST_BYTES = 3_100_000;
 const PHONE = '020 4505 8291';
-// Keep FormSubmit's activated form identity at the canonical website root.
-// website_url below records the actual page used for each enquiry.
-const PROVIDER_FORM_URL = 'https://epsomlocksmiths.co.uk/';
 const SERVICES = new Set([
   'Lock replacement or repair',
   'Car locks or replacement keys',
@@ -31,10 +32,7 @@ function json(status, data) {
     'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
   } });
 }
-function configuredRecipient() {
-  const recipient = process.env.CONTACT_TO_EMAIL?.trim();
-  return recipient && EMAIL.test(recipient) ? recipient : null;
-}
+
 function acceptedOrigin(origin) {
   if (ORIGINS.has(origin)) return true;
   return Boolean(process.env.VERCEL_URL && origin === 'https://' + process.env.VERCEL_URL);
@@ -47,16 +45,20 @@ function validSignature(bytes, extension) {
   return bytes.length >= 12 && ['ftyp', 'moov', 'mdat', 'wide', 'free', 'skip'].includes(ascii(4, 8));
 }
 
-export function GET() {
-  const ready = Boolean(configuredRecipient());
+export async function GET() {
+  const config = databaseConfiguration();
+  let ready = false;
+  if (config) {
+    try { ready = await storageReady(config); } catch {}
+  }
   return json(ready ? 200 : 503, { ready, maxFileBytes: MAX_FILE_BYTES });
 }
 
 export async function POST(request) {
   const origin = request.headers.get('origin');
   if (!acceptedOrigin(origin)) return json(403, { error: 'Please send your enquiry from our website.' });
-  const recipient = configuredRecipient();
-  if (!recipient) return json(503, { error: 'Online enquiries are temporarily unavailable. Please call ' + PHONE + '.' });
+  const config = databaseConfiguration();
+  if (!config) return json(503, { error: 'Online enquiries are temporarily unavailable. Please call ' + PHONE + '.' });
   const contentType = request.headers.get('content-type') || '';
   if (!contentType.toLowerCase().startsWith('multipart/form-data;')) return json(415, { error: 'Please use the website enquiry form.' });
   if (Number(request.headers.get('content-length')) > MAX_REQUEST_BYTES) return json(413, { error: 'Please choose an attachment no larger than 3 MB.' });
@@ -70,6 +72,8 @@ export async function POST(request) {
     return json(400, { error: 'The form could not be read. Please try again.' });
   }
   if (data.get('website')) return json(400, { error: 'The enquiry could not be sent. Please call ' + PHONE + '.' });
+  const requestId = data.get('requestId');
+  if (typeof requestId !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestId)) return json(400, { error: 'Please refresh the page and try again.' });
   const fields = {};
   for (const [key, limit] of Object.entries({ name: 100, phone: 40, email: 254, postcode: 12, service: 100, message: 3000 })) {
     const raw = data.get(key);
@@ -82,8 +86,7 @@ export async function POST(request) {
   if (!SERVICES.has(fields.service)) return json(400, { error: 'Please choose one of the listed services.' });
   fields.postcode = fields.postcode.toUpperCase();
 
-  const outgoing = new FormData();
-  for (const [key, value] of Object.entries(fields)) outgoing.set(key, value);
+  let upload = null;
   const attachment = data.get('attachment');
   if (attachment && typeof attachment !== 'string' && (attachment.name || attachment.size)) {
     if (!attachment.size) return json(400, { error: 'The attachment is empty. Please choose another file.' });
@@ -94,35 +97,36 @@ export async function POST(request) {
     const bytes = new Uint8Array(await attachment.arrayBuffer());
     if (!validSignature(bytes, extension)) return json(400, { error: 'This attachment does not match its file type. Please choose another file.' });
     const filename = attachment.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-100);
-    outgoing.set('attachment', new Blob([bytes], { type }), filename);
+    upload = { bytes, type, name: filename, path: requestId + '/' + filename, size: attachment.size };
   } else if (typeof attachment === 'string' && attachment) {
     return json(400, { error: 'Please choose an attachment using the file picker.' });
   }
-  outgoing.set('_subject', 'New website enquiry: ' + fields.service);
-  outgoing.set('_template', 'table');
-  outgoing.set('_url', PROVIDER_FORM_URL);
-  outgoing.set('website_url', origin + '/#enquiry');
 
+  const digest = createHash('sha256').update(JSON.stringify(fields));
+  if (upload) digest.update(upload.name).update(upload.type).update(upload.bytes);
+  const requestHash = digest.digest('hex');
+  const ip = request.headers.get('x-vercel-forwarded-for') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  if (!ip) return json(400, { error: 'Please send your enquiry from our website.' });
+  const clientHash = createHmac('sha256', config.key).update(ip).digest('hex');
   try {
-    const response = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(recipient), {
-      method: 'POST', headers: { Accept: 'application/json', Origin: new URL(PROVIDER_FORM_URL).origin, Referer: PROVIDER_FORM_URL },
-      body: outgoing, signal: AbortSignal.timeout(20_000),
+    const record = await rpc(config, 'reserve_website_enquiry', {
+      p_id: requestId, p_hash: requestHash, p_client_hash: clientHash, p_fields: fields,
+      p_attachment: upload ? { path: upload.path, name: upload.name, type: upload.type, size: upload.size } : null,
     });
-    const result = await response.json().catch(() => null);
-    if (!response.ok || (result?.success !== true && result?.success !== 'true')) {
-      // Never log the destination address, form content, or provider response.
-      const message = typeof result?.message === 'string' ? result.message.toLowerCase() : '';
-      const code = !response.ok ? 'PROVIDER_HTTP_' + response.status
-        : !result ? 'PROVIDER_INVALID_RESPONSE'
-        : message.includes('activat') ? 'ACTIVATION_REQUIRED'
-        : message.includes('formatted correctly') ? 'RECIPIENT_REJECTED'
-        : message.includes('web server') ? 'PROVIDER_ORIGIN_REJECTED' : 'PROVIDER_REJECTED';
-      console.error('Contact email provider rejected submission', { status: response.status, code });
-      return json(502, { error: 'We could not confirm your enquiry was sent. Please call ' + PHONE + ' before trying again.', code });
+    if (record.error === 'RATE_LIMIT') return json(429, { error: 'Please call ' + PHONE + ' if you need further help with your enquiry.' });
+    if (record.error === 'ID_CONFLICT') return json(409, { error: 'Your enquiry details changed. Please try sending again.', code: 'ID_CONFLICT' });
+    if (record.id !== requestId) throw new Error('ENQUIRY_NOT_SAVED');
+    if (upload && !record.attachment_ready) {
+      await database(config, '/storage/v1/object/' + BUCKET + '/' + upload.path.split('/').map(encodeURIComponent).join('/'), {
+        method: 'POST', headers: { 'Content-Type': upload.type, 'x-upsert': 'true' }, body: upload.bytes,
+      });
+      await updateEnquiry(config, requestId, { attachment_ready: true });
     }
-    return json(200, { sent: true });
+    const notification = record.notification_status === 'sent' ? 'sent' : await notifyEnquiry(config, requestId, gmailConfiguration());
+    return json(200, { sent: true, reference: requestId, notification });
   } catch {
-    console.error('Contact email provider request failed');
-    return json(502, { error: 'We could not confirm your enquiry was sent. Please call ' + PHONE + ' before trying again.' });
+    console.error('Enquiry could not be confirmed', { reference: requestId });
+    return json(502, { error: 'We could not confirm receipt. Your details are still here. Please try again or call ' + PHONE + '.', code: 'SAVE_UNCONFIRMED' });
   }
 }
+
