@@ -112,7 +112,11 @@ export async function POST(request) {
     if (!response.ok || (result?.success !== true && result?.success !== 'true')) {
       // Never log the destination address, form content, or provider response.
       const message = typeof result?.message === 'string' ? result.message.toLowerCase() : '';
-      const code = message.includes('activat') ? 'ACTIVATION_REQUIRED' : message.includes('web server') ? 'PROVIDER_ORIGIN_REJECTED' : 'PROVIDER_REJECTED';
+      const code = !response.ok ? 'PROVIDER_HTTP_' + response.status
+        : !result ? 'PROVIDER_INVALID_RESPONSE'
+        : message.includes('activat') ? 'ACTIVATION_REQUIRED'
+        : message.includes('formatted correctly') ? 'RECIPIENT_REJECTED'
+        : message.includes('web server') ? 'PROVIDER_ORIGIN_REJECTED' : 'PROVIDER_REJECTED';
       console.error('Contact email provider rejected submission', { status: response.status, code });
       return json(502, { error: 'We could not confirm your enquiry was sent. Please call ' + PHONE + ' before trying again.', code });
     }
