@@ -3,5 +3,10 @@
   "framework": null,
   "buildCommand": "",
   "installCommand": "",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "functions": {
+    "api/contact.mjs": {
+      "maxDuration": 30
+    }
+  }
 }
