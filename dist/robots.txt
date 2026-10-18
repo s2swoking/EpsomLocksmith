@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://epsomlocksmiths.co.uk/sitemap.xml
