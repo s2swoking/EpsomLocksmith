@@ -1,6 +1,9 @@
 const MAX_FILE_BYTES = 3_000_000;
 const MAX_REQUEST_BYTES = 3_100_000;
 const PHONE = '020 4505 8291';
+// Keep FormSubmit's activated form identity at the canonical website root.
+// website_url below records the actual page used for each enquiry.
+const PROVIDER_FORM_URL = 'https://epsomlocksmiths.co.uk/';
 const SERVICES = new Set([
   'Lock replacement or repair',
   'Car locks or replacement keys',
@@ -97,18 +100,19 @@ export async function POST(request) {
   }
   outgoing.set('_subject', 'New website enquiry: ' + fields.service);
   outgoing.set('_template', 'table');
-  outgoing.set('_url', origin + '/#enquiry');
+  outgoing.set('_url', PROVIDER_FORM_URL);
+  outgoing.set('website_url', origin + '/#enquiry');
 
   try {
     const response = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(recipient), {
-      method: 'POST', headers: { Accept: 'application/json', Origin: origin, Referer: origin + '/' },
+      method: 'POST', headers: { Accept: 'application/json', Origin: new URL(PROVIDER_FORM_URL).origin, Referer: PROVIDER_FORM_URL },
       body: outgoing, signal: AbortSignal.timeout(20_000),
     });
     const result = await response.json().catch(() => null);
     if (!response.ok || (result?.success !== true && result?.success !== 'true')) {
       // Never log the destination address, form content, or provider response.
       const message = typeof result?.message === 'string' ? result.message.toLowerCase() : '';
-      const code = message.includes('activation') ? 'ACTIVATION_REQUIRED' : message.includes('web server') ? 'PROVIDER_ORIGIN_REJECTED' : 'PROVIDER_REJECTED';
+      const code = message.includes('activat') ? 'ACTIVATION_REQUIRED' : message.includes('web server') ? 'PROVIDER_ORIGIN_REJECTED' : 'PROVIDER_REJECTED';
       console.error('Contact email provider rejected submission', { status: response.status, code });
       return json(502, { error: 'We could not confirm your enquiry was sent. Please call ' + PHONE + ' before trying again.', code });
     }

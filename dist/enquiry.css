@@ -45,3 +45,10 @@
 @media(max-width:1000px){.enquiry-layout{gap:35px;grid-template-columns:.8fr 1.2fr}.enquiry-card{padding:26px}.home-page .hero-actions .button{font-size:12px;padding-inline:12px}}
 @media(max-width:800px){.home-page .enquiry-section{padding:48px 0}.enquiry-layout{grid-template-columns:1fr;gap:28px}.home-page .enquiry-intro h2{font-size:38px;letter-spacing:-1.1px;margin:14px 0 18px}.enquiry-intro>p:not(.eyebrow){max-width:600px}.enquiry-reassurance{max-width:none;margin-top:22px;padding-top:19px}.enquiry-call-link{margin-top:20px}.home-page .contact-inner{flex-direction:column;align-items:flex-start;gap:28px}.home-page .contact-action{min-width:0;width:100%;max-width:340px;text-align:left}.home-page .contact-section{padding:46px 0}}
 @media(max-width:480px){.enquiry-card{padding:21px}.enquiry-fields{grid-template-columns:1fr}.enquiry-card input:not([type=file]),.enquiry-card select,.enquiry-card textarea{font-size:16px}.enquiry-upload{padding:15px}.enquiry-upload input::file-selector-button{margin-right:7px;padding-inline:9px}.home-page .enquiry-intro h2{font-size:35px}.home-page .contact-inner h2{font-size:39px;letter-spacing:-1.2px}.home-page .hero-actions .button{font-size:12px;padding-inline:10px}.home-page .hero-actions{align-items:stretch}}
+
+/* Form sending and delivery feedback. */
+.enquiry-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.enquiry-privacy a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.enquiry-status[data-state="success"]{padding:14px;background:#edf3e9;color:#254a35;border-radius:5px}
+.enquiry-status[data-state="error"]{color:#903a2e;text-align:left}
+.enquiry-status:focus-visible{outline:2px solid #526b58;outline-offset:3px}

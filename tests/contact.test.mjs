@@ -61,6 +61,16 @@ test('preserves photo bytes and attachment name', async () => {
   };
   assert.equal((await POST(request(data))).status, 200);
 });
+test('uses the activated canonical root for enquiries from every allowed alias', async () => {
+  globalThis.fetch = async (url, options) => {
+    assert.equal(options.headers.Origin, 'https://epsomlocksmiths.co.uk');
+    assert.equal(options.headers.Referer, 'https://epsomlocksmiths.co.uk/');
+    assert.equal(options.body.get('_url'), 'https://epsomlocksmiths.co.uk/');
+    assert.equal(options.body.get('website_url'), 'https://epsomlocksmith.vercel.app/#enquiry');
+    return Response.json({ success: true });
+  };
+  assert.equal((await POST(request(form()))).status, 200);
+});
 test('preserves MP4 bytes when forwarding a short video', async () => {
   const video = new Uint8Array([0,0,0,16,102,116,121,112,105,115,111,109]);
   const data = form();
@@ -89,4 +99,12 @@ test('does not report success or leak destination when provider rejects a submis
   const response = await POST(request(form()));
   assert.equal(response.status, 502);
   assert.equal((await response.text()).includes('private-recipient@example.com'), false);
+});
+test('identifies activation required without exposing the provider message', async () => {
+  globalThis.fetch = async () => Response.json({ success: 'false', message: 'Please activate this form for private-recipient@example.com' });
+  const response = await POST(request(form()));
+  assert.equal(response.status, 502);
+  const result = await response.json();
+  assert.equal(result.code, 'ACTIVATION_REQUIRED');
+  assert.equal(JSON.stringify(result).includes('private-recipient@example.com'), false);
 });

@@ -13,12 +13,12 @@
   <link rel="stylesheet" href="./services.css?v=copy-cleanup-20261017-1">
   <link rel="stylesheet" href="./workflow.css">
   <link rel="stylesheet" href="./typography.css?v=figma-type-20261016-4">
-  <link rel="stylesheet" href="./enquiry.css">
+  <link rel="stylesheet" href="./enquiry.css?v=20261018-private-form">
   <link rel="stylesheet" href="./brand-refinement.css">
   <link rel="stylesheet" href="./font-system.css?v=copy-cleanup-20261017-1">
   <link rel="stylesheet" href="./service-refinement.css?v=20261018-3">
   <link rel="stylesheet" href="./site-improvements.css?v=20261018-1">
-  <script src="./enquiry.js" defer></script>
+  <script src="./enquiry.js?v=20261018-private-form" defer></script>
   <script src="./assets/lucide.min.js" defer></script>
   <script src="./workflow-config.js"></script>
   <script src="./app.js?v=phone-20261018-2" defer></script>
@@ -119,15 +119,15 @@
     <section id="enquiry" class="enquiry-section" aria-labelledby="enquiry-title">
       <div class="container enquiry-layout">
         <div class="enquiry-intro"><p class="eyebrow">NON-URGENT ENQUIRIES</p><h2 id="enquiry-title">Tell us what<br>needs fixing.</h2><p>Describe the problem and add a photo or short video if useful.</p><a class="enquiry-call-link" href="tel:02045058291" data-call-link><i data-lucide="phone" aria-hidden="true"></i>Need urgent help? Call instead <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
-        <form id="enquiry-form" class="enquiry-card" aria-labelledby="enquiry-title" aria-describedby="enquiry-availability">
-          <div class="enquiry-availability" id="enquiry-availability"><span class="enquiry-badge">Coming soon</span><p>Online enquiries are not available yet.</p></div>
+        <form id="enquiry-form" class="enquiry-card" aria-labelledby="enquiry-title" aria-describedby="enquiry-status" method="post" action="/api/contact" enctype="multipart/form-data">
+          <div class="enquiry-honeypot" aria-hidden="true"><label for="enquiry-website">Leave this field empty<input id="enquiry-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
           <div class="enquiry-fields"><label for="enquiry-name">Name<input id="enquiry-name" name="name" autocomplete="name" required maxlength="100"></label><label for="enquiry-phone">Phone<input id="enquiry-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40"></label><label for="enquiry-email">Email<input id="enquiry-email" name="email" type="email" autocomplete="email" required maxlength="254"></label><label for="enquiry-postcode">Postcode<input id="enquiry-postcode" name="postcode" autocomplete="postal-code" required maxlength="12"></label></div>
           <label for="enquiry-service">What can we help with?<select name="service" id="enquiry-service" required><option value="">Choose a service</option><option>Lock replacement or repair</option><option>Car locks or replacement keys</option><option>Boarding up or burglary repairs</option><option>Window locks, handles or mechanisms</option><option>Moving-home lock changes</option><option>Safe opening or repair</option><option>Door repairs or replacement</option><option>Gate welding or repairs</option><option>Something else / not sure</option></select></label>
           <label for="enquiry-message">Tell us about the problem<textarea id="enquiry-message" name="message" rows="4" required maxlength="3000" placeholder="What’s happening, and when would you like help?"></textarea></label>
-          <div class="enquiry-upload"><label for="enquiry-file"><i data-lucide="camera" aria-hidden="true"></i><span>Attach a photo of your lock or door mechanism <small>Optional</small><span class="enquiry-photo-context">(helps us give an exact quote over the phone)</span></span></label><input id="enquiry-file" name="attachment" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime" aria-describedby="enquiry-file-help file-feedback"><p id="enquiry-file-help">JPG, PNG, WebP, MP4 or MOV · up to 10 MB</p><p id="file-feedback" class="enquiry-file-feedback" role="status"></p><button type="button" id="remove-attachment" hidden>Remove file</button></div>
-          <p class="enquiry-privacy">No details or files are sent.</p>
-          <button class="button enquiry-submit" type="submit" disabled aria-describedby="enquiry-availability"><i data-lucide="mail" aria-hidden="true"></i>Send enquiry</button>
-          <p id="enquiry-status" class="enquiry-status" role="status">Urgent lockout? Please call.</p>
+          <div class="enquiry-upload"><label for="enquiry-file"><i data-lucide="camera" aria-hidden="true"></i><span>Attach a photo of your lock or door mechanism <small>Optional</small><span class="enquiry-photo-context">(helps us give an exact quote over the phone)</span></span></label><input id="enquiry-file" name="attachment" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime" aria-describedby="enquiry-file-help file-feedback"><p id="enquiry-file-help">JPG, PNG, WebP, MP4 or MOV · up to 3 MB</p><p id="file-feedback" class="enquiry-file-feedback" role="status"></p><button type="button" id="remove-attachment" hidden>Remove file</button></div>
+          <p class="enquiry-privacy">Your details and any attachment are sent securely through <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> so we can respond to your enquiry.</p>
+          <button class="button enquiry-submit" type="submit" disabled aria-describedby="enquiry-status"><i data-lucide="mail" aria-hidden="true"></i><span>Send enquiry</span></button>
+          <p id="enquiry-status" class="enquiry-status" role="status" tabindex="-1">Checking online enquiries…</p><noscript><p class="enquiry-status">Please enable JavaScript to send an enquiry, or call 020 4505 8291.</p></noscript>
         </form>
       </div>
     </section>
