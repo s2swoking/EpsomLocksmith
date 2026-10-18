@@ -91,3 +91,12 @@
   .home-page .services-grid .service-action{font-size:14px;padding-inline:12px}
   .home-page .services-grid .repair-card .service-action{padding-inline:0}
 }
+
+/* Give the additional gate service a complete desktop row. */
+@media(min-width:561px){
+  .home-page .additional-service.gate-service{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);grid-template-rows:auto 1fr auto}
+  .home-page .gate-service .additional-service-photo{grid-column:1;grid-row:1/4;aspect-ratio:3/2;height:100%;margin:0}
+  .home-page .gate-service>h4{grid-column:2;margin:28px 32px 12px}
+  .home-page .gate-service>p{grid-column:2;margin:0 32px 24px;max-width:520px}
+  .home-page .gate-service>a{grid-column:2;margin:0 32px;padding:17px 0 24px}
+}
