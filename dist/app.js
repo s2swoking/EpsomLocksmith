@@ -28,7 +28,7 @@ window.matchMedia('(min-width: 801px)').addEventListener('change', event => { if
 const phoneLink = document.querySelector('.contact-phone');
 if (business.phone) {
   const digits = business.phone.replace(/[^+\d]/g, '');
-  const dialNumber = digits.startsWith('0') ? '+44' + digits.slice(1) : digits;
+  const dialNumber = digits;
   phoneLink.href = 'tel:' + dialNumber;
   phoneLink.removeAttribute('aria-disabled');
   phoneLink.querySelector('span').textContent = business.phone;

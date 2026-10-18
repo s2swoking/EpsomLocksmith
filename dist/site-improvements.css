@@ -1,0 +1,73 @@
+/* Requested local trust points, coverage groups and attachment guidance. */
+.home-page .local-trust-bar{
+  background:#f8f5ed;
+  border-bottom:1px solid #e2dfd4;
+}
+.home-page .local-trust-list{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  list-style:none;
+  padding:22px 0;
+  margin-block:0;
+}
+.home-page .local-trust-list li{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:4px 20px;
+  color:#34453f;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.5;
+}
+.home-page .local-trust-list li+li{border-left:1px solid #ddd8c9}
+.home-page .local-trust-list svg{width:25px;height:25px;color:#927438}
+.home-page .place-list.expanded-place-list{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  gap:0;
+  max-width:1000px;
+  margin:32px auto 24px;
+  font-size:22px;
+  line-height:1.5;
+}
+.home-page .expanded-place-list li{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 24px;
+}
+.home-page .expanded-place-list li+li{border-left:1px solid #496054}
+.home-page .expanded-place-list li+li::before{content:none}
+.home-page .enquiry-upload label{align-items:flex-start;font-size:14px;line-height:1.6}
+.home-page .enquiry-upload label>svg{margin-top:3px}
+.home-page .enquiry-upload label>span{min-width:0}
+.home-page .enquiry-photo-context{
+  display:block;
+  margin-top:5px;
+  color:#59685e;
+  font-size:13px;
+  font-weight:400;
+  line-height:1.6;
+}
+@media(max-width:1000px){
+  .home-page .local-trust-list li{padding-inline:14px;font-size:14px;gap:9px}
+  .home-page .expanded-place-list li{padding-inline:20px}
+}
+@media(max-width:800px){
+  .home-page .local-trust-list{grid-template-columns:repeat(2,minmax(0,1fr));padding-block:6px}
+  .home-page .local-trust-list li{justify-content:flex-start;padding:16px 20px;font-size:15px}
+  .home-page .local-trust-list li:nth-child(3){border-left:0}
+  .home-page .local-trust-list li:nth-child(n+3){border-top:1px solid #ddd8c9}
+  .home-page .place-list.expanded-place-list{font-size:20px}
+  .home-page .expanded-place-list li{padding-inline:16px}
+}
+@media(max-width:560px){
+  .home-page .local-trust-list li{padding:14px 10px;font-size:14px;gap:9px}
+  .home-page .local-trust-list svg{width:22px;height:22px}
+  .home-page .place-list.expanded-place-list{grid-template-columns:1fr;gap:16px;font-size:21px}
+  .home-page .expanded-place-list li{padding:0}
+  .home-page .expanded-place-list li+li{border-left:0}
+}
