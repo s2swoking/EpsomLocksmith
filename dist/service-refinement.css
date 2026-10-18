@@ -100,3 +100,8 @@
   .home-page .gate-service>p{grid-column:2;margin:0 32px 24px;max-width:520px}
   .home-page .gate-service>a{grid-column:2;margin:0 32px;padding:17px 0 24px}
 }
+
+/* Keep the supplied FAQs in clear, accessible topic groups. */
+.home-page .faq-group+.faq-group{margin-top:32px}
+.home-page .faq-list .faq-group>h3{font-family:var(--font-body);font-size:17px;font-weight:700;line-height:1.5;letter-spacing:normal;color:#8d7039;margin:0 0 12px}
+.home-page .faq-group>details:first-of-type{border-top:1px solid var(--line)}
