@@ -44,6 +44,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let framePending = false;
 function updateLockMotion() {
   framePending = false;
+  if (!hero) return;
   const bounds = hero.getBoundingClientRect();
   const progress = Math.min(1, Math.max(0, -bounds.top / bounds.height));
   const amount = reducedMotion.matches ? 0.15 : 1;
