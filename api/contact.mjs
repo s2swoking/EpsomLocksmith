@@ -4,7 +4,7 @@ import { gmailConfiguration, notifyEnquiry } from '../lib/enquiry-mail.mjs';
 
 const MAX_FILE_BYTES = 3_000_000;
 const MAX_REQUEST_BYTES = 3_100_000;
-const PHONE = '020 4505 8291';
+const PHONE = '0203 7720564';
 const SERVICES = new Set([
   'Lock replacement or repair',
   'Car locks or replacement keys',

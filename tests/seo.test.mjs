@@ -49,3 +49,15 @@ test('area pages are distinct compact local content with relevant service links'
  for(const p of areas){assert.ok(!/services-grid|additional-services-grid|£/.test(p.text));assert.ok(p.text.includes('/emergency-door-opening/')||p.text.includes('/lock-repairs-replacement/'));}
  for(const p of pages.filter(p=>p.text.includes('£')))assert.ok(p.text.includes('confirms the price before work starts'));
 });
+
+test('all public phone links and business schema use the confirmed business number',()=>{
+ for(const p of pages){
+  assert.ok(p.text.includes('0203 7720564'),p.file);
+  for(const [,number] of p.text.matchAll(/href="tel:([^"]+)"/g))assert.equal(number,'02037720564',p.file);
+  const graph=JSON.parse(p.text.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+  assert.equal(graph.find(n=>n['@id']===origin+'/#business').telephone,'+442037720564');
+  assert.ok(!/02045058291|020 4505 8291|442045058291/.test(p.text),p.file);
+ }
+ assert.match(readFileSync(resolve(root,'app.js'),'utf8'),/phone: '0203 7720564'/);
+ for(const file of ['dist/enquiry.js','api/contact.mjs'])assert.ok(!/02045058291|020 4505 8291|442045058291/.test(readFileSync(file,'utf8')),file);
+});

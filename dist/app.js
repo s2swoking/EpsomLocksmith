@@ -1,7 +1,7 @@
 'use strict';
 
 // Confirmed business contact details.
-const business = { name: 'Epsom Local Locksmith', phone: '020 4505 8291' };
+const business = { name: 'Epsom Local Locksmith', phone: '0203 7720564' };
 
 document.querySelectorAll('[data-brand]').forEach(element => { element.textContent = business.name; });
 const year = document.getElementById('year');

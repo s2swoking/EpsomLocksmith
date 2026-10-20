@@ -46,9 +46,9 @@
       if (!response.ok || result.ready !== true) throw new Error('Unavailable');
       ready = true;
       submit.disabled = false;
-      setStatus('For urgent help, call 020 4505 8291.');
+      setStatus('For urgent help, call 0203 7720564.');
     })
-    .catch(() => setStatus('Online enquiries are temporarily unavailable. Please call 020 4505 8291.', 'error'));
+    .catch(() => setStatus('Online enquiries are temporarily unavailable. Please call 0203 7720564.', 'error'));
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -72,7 +72,7 @@
       const result = await response.json();
       if (response.status === 409) requestId = null;
       if (!response.ok || result.sent !== true || result.reference !== requestId) {
-        const message = typeof result.error === 'string' ? result.error : 'We could not confirm your enquiry was sent. Please call 020 4505 8291 before trying again.';
+        const message = typeof result.error === 'string' ? result.error : 'We could not confirm your enquiry was sent. Please call 0203 7720564 before trying again.';
         setStatus(message, 'error');
         return;
       }
@@ -82,7 +82,7 @@
       setStatus('Thank you. Your enquiry has been received. We’ll get back to you using the contact details you provided.', 'success');
       status.focus();
     } catch {
-      setStatus('We could not confirm your enquiry was sent. Please call 020 4505 8291 before trying again. Your details are still here.', 'error');
+      setStatus('We could not confirm your enquiry was sent. Please call 0203 7720564 before trying again. Your details are still here.', 'error');
     } finally {
       sending = false;
       submit.disabled = !ready;
