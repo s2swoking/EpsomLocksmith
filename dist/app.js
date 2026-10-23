@@ -11,6 +11,7 @@ if (window.lucide) window.lucide.createIcons();
 const menuButton = document.querySelector('.menu-toggle');
 const mobileNav = document.getElementById('mobile-nav');
 function closeMenu() {
+  document.querySelectorAll('.nav-group[open]').forEach(group => { group.open = false; });
   mobileNav.hidden = true;
   menuButton.setAttribute('aria-expanded', 'false');
   menuButton.setAttribute('aria-label', 'Open navigation');
@@ -56,3 +57,13 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 reducedMotion.addEventListener('change', updateLockMotion);
 updateLockMotion();
+
+// Close disclosure menus after navigation, outside clicks or Escape.
+document.querySelectorAll('.nav-group').forEach(group => {
+  group.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { group.open = false; }));
+});
+document.addEventListener('click', event => {
+  document.querySelectorAll('.nav-group[open]').forEach(group => {
+    if (!group.contains(event.target)) group.open = false;
+  });
+});
