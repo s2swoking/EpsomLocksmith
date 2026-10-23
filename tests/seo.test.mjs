@@ -61,3 +61,21 @@ test('all public phone links and business schema use the confirmed business numb
  assert.match(readFileSync(resolve(root,'app.js'),'utf8'),/phone: '0203 7720564'/);
  for(const file of ['dist/enquiry.js','api/contact.mjs'])assert.ok(!/02045058291|020 4505 8291|442045058291/.test(readFileSync(file,'utf8')),file);
 });
+
+test('header and footer directly link to every service and area on all public pages',()=>{
+ const targets=pages.filter(p=>!['index.html','faq/index.html'].includes(p.file)).map(p=>'/'+p.file.replace('index.html',''));
+ for(const p of pages){
+  const desktop=p.text.match(/<nav class="desktop-nav"[\s\S]*?<\/nav>/)[0];
+  const mobile=p.text.match(/<nav id="mobile-nav"[\s\S]*?<\/nav>/)[0];
+  const footer=p.text.match(/<footer>[\s\S]*?<\/footer>/)[0];
+  for(const target of targets)for(const nav of [desktop,mobile,footer])assert.ok(nav.includes(`href="${target}"`),`${p.file}: ${target}`);
+ }
+});
+test('area titles use clear location names and 404 is excluded from indexing',()=>{
+ for(const name of ['Epsom','Ewell West','Worcester Park','Stoneleigh']){
+  const p=pages.find(p=>p.file==='locksmith-'+name.toLowerCase().replaceAll(' ','-')+'/index.html');
+  assert.equal(textOf(p.text,'h1')[0],'Locksmith in '+name);
+  assert.equal(textOf(p.text,'title')[0],'Locksmith in '+name+' | Epsom Local Locksmith');
+ }
+ assert.match(readFileSync(resolve(root,'404.html'),'utf8'),/name="robots" content="noindex"/);
+});
